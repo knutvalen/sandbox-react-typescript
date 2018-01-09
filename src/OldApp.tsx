@@ -28,15 +28,15 @@ const defaultState = {
   contacts: []
 };
 
-const reducer = (state: AppState = defaultState, action: ContactAction) : AppState => {
-  switch(action.type) {
+const reducer = (state: AppState = defaultState, action: ContactAction): AppState => {
+  switch (action.type) {
     case ActionTypes.FirstNameChanged:
-      return {...state, firstName: action.payload};
+      return { ...state, firstName: action.payload };
     case ActionTypes.LastNameChanged:
-      return {...state, lastName: action.payload}
-    case ActionTypes.AddContact: 
-    const contact = {firstName: state.firstName, lastName: state.lastName};
-      return {...state, contacts: [...state.contacts, contact], firstName: '', lastName: ''};
+      return { ...state, lastName: action.payload }
+    case ActionTypes.AddContact:
+      const contact = { firstName: state.firstName, lastName: state.lastName };
+      return { ...state, contacts: [...state.contacts, contact], firstName: '', lastName: '' };
     default:
       return state;
   }

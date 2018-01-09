@@ -7,7 +7,7 @@ const defaultState = {
         {
             name: 'In-House',
             monday: 0,
-            tuesday: 0,
+            tuesday: 4,
             wednesday: 0,
             thursday: 0,
             friday: 0,
@@ -17,7 +17,7 @@ const defaultState = {
         {
             name: 'Monobank',
             monday: 0,
-            tuesday: 0,
+            tuesday: 6,
             wednesday: 0,
             thursday: 0,
             friday: 0,
