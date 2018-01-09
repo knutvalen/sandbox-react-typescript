@@ -1,13 +1,37 @@
-import { EnthusiasmAction } from '../actions'
 import { StoreState } from '../types/index'
-import { INCREMENT_ENTHUSIASM, DECREMENT_ENTHUSIASM } from '../constants/index'
+import { TimeTrackingAction } from '../actions/index';
+import { TIME_TRACKING_CHANGED } from '../constants/index';
 
-export function enthusiasm(state: StoreState, action: EnthusiasmAction): StoreState {
+const defaultState = {
+    projects: [
+        {
+            name: 'In-House',
+            monday: 0,
+            tuesday: 0,
+            wednesday: 0,
+            thursday: 0,
+            friday: 0,
+            saturday: 0,
+            sunday: 0
+        },
+        {
+            name: 'Monobank',
+            monday: 0,
+            tuesday: 0,
+            wednesday: 0,
+            thursday: 0,
+            friday: 0,
+            saturday: 0,
+            sunday: 0
+        }
+    ]
+};
+
+export function timeTracking(state: StoreState = defaultState, action: TimeTrackingAction): StoreState {
     switch (action.type) {
-        case INCREMENT_ENTHUSIASM:
-            return { ...state, enthusiasmLevel: state.enthusiasmLevel + 1 }
-        case DECREMENT_ENTHUSIASM:
-            return { ...state, enthusiasmLevel: Math.max(1, state.enthusiasmLevel - 1) }
+        case TIME_TRACKING_CHANGED:
+            return { ...state, };
+        default:
+            return state;
     }
-    return state
 }
