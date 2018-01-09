@@ -1,4 +1,4 @@
-import { StoreState } from '../types/index'
+import { StoreState } from '../types/index';
 import { TimeTrackingAction } from '../actions/index';
 import { TIME_TRACKING_CHANGED } from '../constants/index';
 
@@ -30,7 +30,7 @@ const defaultState = {
 export function timeTracking(state: StoreState = defaultState, action: TimeTrackingAction): StoreState {
     switch (action.type) {
         case TIME_TRACKING_CHANGED:
-            return { ...state, };
+            return { ...state };
         default:
             return state;
     }
