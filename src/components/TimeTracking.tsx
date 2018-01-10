@@ -6,7 +6,7 @@ import { StoreState } from '../types/index';
 import { timeTrackingChangedAction } from '../actions/index';
 
 interface TimeTrackingProps {
-    timeTrackingChanged: (projects: Project[]) => void;
+    timeTrackingChanged: (project: Project) => void;
     projects: Project[];
 }
 
@@ -25,8 +25,8 @@ const TimeTracking: React.SFC<TimeTrackingProps> = (props) => {
                         <th>Saturday</th>
                         <th>Sunday</th>
                     </tr>
-                    {GetTimeTrackingRows(props.projects)}
-                    {GetDaySummaryRow(props.projects)}
+                    {GetWeeklyEntries(props)}
+                    {GetWeeklySummary(props.projects)}
                 </tbody>
             </table>
         </div>
@@ -43,28 +43,61 @@ const mapDispatchToProps = (dispatch: any) => ({
 
 export default connect(mapStateToProps, mapDispatchToProps)(TimeTracking);
 
-function GetTimeTrackingRows(projects: Project[]): any {
-    var rows = [];
-    for (var i: number = 0; i < projects.length; i++) {
-        rows.push(TimeTrackingRow(projects[i]));
+function GetWeeklyEntries(props: TimeTrackingProps): any {
+    var entries = [];
+    for (var i: number = 0; i < props.projects.length; i++) {
+        entries.push(WeeklyEntry(props.projects[i], props.timeTrackingChanged));
     }
-    return rows;
+    return entries;
 }
 
-const TimeTrackingRow = (project: Project) => (
-    <tr key={project.name}>
-        <td>{project.name}</td>
-        <td>{project.monday}</td>
-        <td>{project.tuesday}</td>
-        <td>{project.wednesday}</td>
-        <td>{project.thursday}</td>
-        <td>{project.friday}</td>
-        <td>{project.saturday}</td>
-        <td>{project.sunday}</td>
-    </tr>
-);
+function WeeklyEntry(project: Project, timeTrackingChanged: (project: Project) => void): any {
+    const summary: number =
+        Number(project.monday)
+        + Number(project.tuesday)
+        + Number(project.wednesday)
+        + Number(project.thursday)
+        + Number(project.friday)
+        + Number(project.saturday)
+        + Number(project.sunday);
 
-function GetDaySummaryRow(projects: Project[]): any {
+    return (
+        <tr key={project.name}>
+            <td>{project.name}</td>
+            <td>
+                <input type="number" value={project.monday}
+                    onChange={(event: any) => timeTrackingChanged({ ...project, monday: event.target.value })} />
+            </td>
+            <td>
+                <input type="number" value={project.tuesday}
+                    onChange={(event: any) => timeTrackingChanged({ ...project, tuesday: event.target.value })} />
+            </td>
+            <td>
+                <input type="number" value={project.wednesday}
+                    onChange={(event: any) => timeTrackingChanged({ ...project, wednesday: event.target.value })} />
+            </td>
+            <td>
+                <input type="number" value={project.thursday}
+                    onChange={(event: any) => timeTrackingChanged({ ...project, thursday: event.target.value })} />
+            </td>
+            <td>
+                <input type="number" value={project.friday}
+                    onChange={(event: any) => timeTrackingChanged({ ...project, friday: event.target.value })} />
+            </td>
+            <td>
+                <input type="number" value={project.saturday}
+                    onChange={(event: any) => timeTrackingChanged({ ...project, saturday: event.target.value })} />
+            </td>
+            <td>
+                <input type="number" value={project.sunday}
+                    onChange={(event: any) => timeTrackingChanged({ ...project, sunday: event.target.value })} />
+            </td>
+            <td className="TimeTracking-summary">{summary}</td>
+        </tr>
+    );
+}
+
+function GetWeeklySummary(projects: Project[]): any {
     var monday: number = 0;
     var tuesday: number = 0;
     var wednesday: number = 0;
@@ -75,26 +108,38 @@ function GetDaySummaryRow(projects: Project[]): any {
 
     for (var i: number = 0; i < projects.length; i++) {
         const project = projects[i];
-        if (project.monday != null && project.monday > 0) {
-            monday += project.monday;
-        } else if (project.tuesday != null && project.tuesday > 0) {
-            tuesday += project.tuesday;
-        } else if (project.wednesday != null && project.wednesday > 0) {
-            wednesday += project.wednesday;
-        } else if (project.thursday != null && project.thursday > 0) {
-            thursday += project.thursday;
-        } else if (project.friday != null && project.friday > 0) {
-            friday += project.friday;
-        } else if (project.saturday != null && project.saturday > 0) {
-            saturday += project.saturday;
-        } else if (project.sunday != null && project.sunday > 0) {
-            sunday += project.sunday;
+        if (project.monday != null && Number(project.monday) > 0) {
+            monday += Number(project.monday);
+        }
+        
+        if (project.tuesday != null && Number(project.tuesday) > 0) {
+            tuesday += Number(project.tuesday);
+        } 
+        
+        if (project.wednesday != null && Number(project.wednesday) > 0) {
+            wednesday += Number(project.wednesday);
+        } 
+        
+        if (project.thursday != null && Number(project.thursday) > 0) {
+            thursday += Number(project.thursday);
+        }
+        
+        if (project.friday != null && Number(project.friday) > 0) {
+            friday += Number(project.friday);
+        }
+        
+        if (project.saturday != null && Number(project.saturday) > 0) {
+            saturday += Number(project.saturday);
+        }
+        
+        if (project.sunday != null && Number(project.sunday) > 0) {
+            sunday += Number(project.sunday);
         }
     }
 
     return (
-        <tr className="TimeTracking" key={'daySummaryRow'}>
-            <td />
+        <tr className="TimeTracking-summary" key={'daySummaryRow'}>
+            <td className="TimeTracking-blank" />
             <td>{monday}</td>
             <td>{tuesday}</td>
             <td>{wednesday}</td>
@@ -105,7 +150,3 @@ function GetDaySummaryRow(projects: Project[]): any {
         </tr>
     );
 }
-
-// function GetProjectSummaryRow(projects: Project[]): any {
-
-// }

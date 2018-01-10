@@ -3,17 +3,20 @@ import * as constants from '../constants';
 import { Project } from '../types/index';
 
 export interface TimeTrackingChanged {
-    type: constants.TIME_TRACKING_CHANGED;
+    readonly type: constants.TIME_TRACKING_CHANGED;
+    readonly payload: Project;
 }
 
 export type TimeTrackingAction = TimeTrackingChanged;
 
-export function timeTrackingChanged(): TimeTrackingChanged {
-    return {
-        type: constants.TIME_TRACKING_CHANGED
-    };
-}
+// export function timeTrackingChanged(): TimeTrackingChanged {
+//     return {
+//         type: constants.TIME_TRACKING_CHANGED
+//     };
+// }
+
+// export const timeTrackingChanged = () => ({type: constants.TIME_TRACKING_CHANGED});
 
 export const timeTrackingChangedAction = curry(
-    (dispatch: any, projects: Project[]) => dispatch({type: constants.TIME_TRACKING_CHANGED, payload: projects})
+    (dispatch: any, project: Project) => dispatch({type: constants.TIME_TRACKING_CHANGED, payload: project})
 );
