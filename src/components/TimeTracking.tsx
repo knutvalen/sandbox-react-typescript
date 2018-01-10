@@ -26,7 +26,7 @@ const TimeTracking: React.SFC<TimeTrackingProps> = (props) => {
                         <th>Sunday</th>
                     </tr>
                     {GetWeeklyEntries(props)}
-                    {GetWeeklySummary(props.projects)}
+                    {GetWeeklySummary(props)}
                 </tbody>
             </table>
         </div>
@@ -97,7 +97,8 @@ function WeeklyEntry(project: Project, timeTrackingChanged: (project: Project) =
     );
 }
 
-function GetWeeklySummary(projects: Project[]): any {
+function GetWeeklySummary(props: TimeTrackingProps): any {
+    const projects = props.projects;
     var monday: number = 0;
     var tuesday: number = 0;
     var wednesday: number = 0;
