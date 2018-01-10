@@ -9,14 +9,6 @@ export interface TimeTrackingChanged {
 
 export type TimeTrackingAction = TimeTrackingChanged;
 
-// export function timeTrackingChanged(): TimeTrackingChanged {
-//     return {
-//         type: constants.TIME_TRACKING_CHANGED
-//     };
-// }
-
-// export const timeTrackingChanged = () => ({type: constants.TIME_TRACKING_CHANGED});
-
 export const timeTrackingChangedAction = curry(
     (dispatch: any, project: Project) => dispatch({type: constants.TIME_TRACKING_CHANGED, payload: project})
 );

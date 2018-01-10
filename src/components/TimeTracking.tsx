@@ -137,6 +137,15 @@ function GetWeeklySummary(projects: Project[]): any {
         }
     }
 
+    const summary: number =
+        Number(monday)
+        + Number(tuesday)
+        + Number(wednesday)
+        + Number(thursday)
+        + Number(friday)
+        + Number(saturday)
+        + Number(sunday);
+
     return (
         <tr className="TimeTracking-summary" key={'daySummaryRow'}>
             <td className="TimeTracking-blank" />
@@ -147,6 +156,7 @@ function GetWeeklySummary(projects: Project[]): any {
             <td>{friday}</td>
             <td>{saturday}</td>
             <td>{sunday}</td>
+            <td>{summary}</td>
         </tr>
     );
 }
