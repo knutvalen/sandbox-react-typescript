@@ -1,6 +1,6 @@
 import { StoreState, Project } from '../types/index';
 import { TimeTrackingAction } from '../actions/index';
-import { TIME_TRACKING_CHANGED } from '../constants/index';
+import { TIME_TRACKING_CHANGED, MANAGE_PROJECTS } from '../constants/index';
 
 const defaultState = {
     projects: [
@@ -32,13 +32,15 @@ export function timeTracking(state: StoreState = defaultState, action: TimeTrack
         case TIME_TRACKING_CHANGED:
             const newProjects = updateProjectInArray(state.projects, action);
             return { ...state, projects: newProjects };
+        case MANAGE_PROJECTS:
+            return { ...state }
         default:
             return state;
     }
 }
 
 function updateProjectInArray(projects: Project[], action: TimeTrackingAction) {
-    return projects.map((project, index) => {
+    return projects.map((project) => {
         if (project.name !== action.payload.name) {
             // this is not the project to update - keep it
             return project;

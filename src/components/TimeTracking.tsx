@@ -3,17 +3,18 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Project } from '../types/index';
 import { StoreState } from '../types/index';
-import { timeTrackingChangedAction } from '../actions/index';
+import { timeTrackingChangedAction, manageProjectsAction } from '../actions/index';
 
 interface TimeTrackingProps {
     timeTrackingChanged: (project: Project) => void;
     projects: Project[];
+    manageProjects: () => void;
 }
 
 const TimeTracking: React.SFC<TimeTrackingProps> = (props) => {
     return (
         <div>
-            <button>Manage projects</button>
+            <button onClick={() => props.manageProjects()}>Manage projects</button>
             <table>
                 <tbody>
                     <tr>
@@ -39,7 +40,8 @@ const mapStateToProps = (state: StoreState) => ({
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-    timeTrackingChanged: timeTrackingChangedAction(dispatch)
+    timeTrackingChanged: timeTrackingChangedAction(dispatch),
+    manageProjects: manageProjectsAction(dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TimeTracking);
