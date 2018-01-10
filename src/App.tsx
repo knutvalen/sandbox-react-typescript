@@ -1,22 +1,24 @@
 import * as React from 'react';
 import './App.css';
+import TimeTracking from './components/TimeTracking';
+import { createStore, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
+import { StoreState } from './types/index';
+import { timeTracking } from './reducers/index';
+import logger from 'redux-logger';
 
-const logo = require('./logo.svg');
+const store = createStore<StoreState>(timeTracking, applyMiddleware(logger));
 
 class App extends React.Component {
-  render() {
-    return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.tsx</code> and save to reload.
-        </p>
-      </div>
-    );
-  }
+    render() {
+        return (
+            <Provider store={store}>
+                <div className="App">
+                    <TimeTracking />
+                </div>
+            </Provider>
+        );
+    }
 }
 
 export default App;

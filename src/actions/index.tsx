@@ -1,23 +1,14 @@
-import * as constants from '../constants'
+import { curry } from 'ramda';
+import * as constants from '../constants';
+import { Project } from '../types/index';
 
-export interface IncrementEnthusiasm {
-    type: constants.INCREMENT_ENTHUSIASM
+export interface TimeTrackingChanged {
+    readonly type: constants.TIME_TRACKING_CHANGED;
+    readonly payload: Project;
 }
 
-export interface DecrementEnthusiasm {
-    type: constants.DECREMENT_ENTHUSIASM
-}
+export type TimeTrackingAction = TimeTrackingChanged;
 
-export type EnthusiasmAction = IncrementEnthusiasm | DecrementEnthusiasm
-
-export function incrementEnthusiasm(): IncrementEnthusiasm {
-    return {
-        type: constants.INCREMENT_ENTHUSIASM
-    }
-}
-
-export function decrementEnthusiasm(): DecrementEnthusiasm {
-    return {
-        type: constants.DECREMENT_ENTHUSIASM
-    }
-}
+export const timeTrackingChangedAction = curry(
+    (dispatch: any, project: Project) => dispatch({type: constants.TIME_TRACKING_CHANGED, payload: project})
+);
