@@ -13,6 +13,7 @@ interface TimeTrackingProps {
 const TimeTracking: React.SFC<TimeTrackingProps> = (props) => {
     return (
         <div>
+            <button>Manage projects</button>
             <table>
                 <tbody>
                     <tr>
@@ -112,27 +113,27 @@ function GetWeeklySummary(props: TimeTrackingProps): any {
         if (project.monday != null && Number(project.monday) > 0) {
             monday += Number(project.monday);
         }
-        
+
         if (project.tuesday != null && Number(project.tuesday) > 0) {
             tuesday += Number(project.tuesday);
-        } 
-        
+        }
+
         if (project.wednesday != null && Number(project.wednesday) > 0) {
             wednesday += Number(project.wednesday);
-        } 
-        
+        }
+
         if (project.thursday != null && Number(project.thursday) > 0) {
             thursday += Number(project.thursday);
         }
-        
+
         if (project.friday != null && Number(project.friday) > 0) {
             friday += Number(project.friday);
         }
-        
+
         if (project.saturday != null && Number(project.saturday) > 0) {
             saturday += Number(project.saturday);
         }
-        
+
         if (project.sunday != null && Number(project.sunday) > 0) {
             sunday += Number(project.sunday);
         }
