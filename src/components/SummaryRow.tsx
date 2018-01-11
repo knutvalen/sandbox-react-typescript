@@ -2,23 +2,17 @@ import * as React from 'react';
 import { Project, Func } from '../types/index';
 import { map, sum, pipe } from 'ramda';
 
-const mapDay = (day: string): Func<Project[], any[]> => map((project: Project) => project[day]);
-const sumDay = (day: string, projects: Project[]): number => pipe(mapDay(day), sum)(projects);
+const mapDay = (day: number): Func<Project[], any[]> => map((project: Project) => project.week[day]);
+const sumDay = (day: number, projects: Project[]): number => pipe(mapDay(day), sum)(projects);
 
 const sumWeek = (projects: Project[]) =>
-    sum([sumDay('monday', projects),
-    sumDay('tuesday', projects),
-    sumDay('wednesday', projects),
-    sumDay('thursday', projects),
-    sumDay('friday', projects),
-    sumDay('saturday', projects),
-    sumDay('sunday', projects)]);
-
-// const sumMonday: (p: Project[]) => number = (projects: Project[]) => {
-//     const mondays: number[] = mapMondays(projects);
-//     const sumOfMondays: number = sum(mondays);
-//     return sumOfMondays;
-//};
+    sum([sumDay(0, projects),
+    sumDay(1, projects),
+    sumDay(2, projects),
+    sumDay(3, projects),
+    sumDay(4, projects),
+    sumDay(5, projects),
+    sumDay(6, projects)]);
 
 interface SummaryRowProps {
     readonly projects: Project[];
@@ -27,13 +21,13 @@ interface SummaryRowProps {
 const SummaryRow: React.SFC<SummaryRowProps> = ({ projects }) => (
     <tr className="TimeTracking-summary" key={'daySummaryRow'}>
         <td className="TimeTracking-blank" />
-        <td>{sumDay('monday', projects)}</td>
-        <td>{sumDay('tuesday', projects)}</td>
-        <td>{sumDay('wednesday', projects)}</td>
-        <td>{sumDay('thursday', projects)}</td>
-        <td>{sumDay('friday', projects)}</td>
-        <td>{sumDay('saturday', projects)}</td>
-        <td>{sumDay('sunday', projects)}</td>
+        <td>{sumDay(0, projects)}</td>
+        <td>{sumDay(1, projects)}</td>
+        <td>{sumDay(2, projects)}</td>
+        <td>{sumDay(3, projects)}</td>
+        <td>{sumDay(4, projects)}</td>
+        <td>{sumDay(5, projects)}</td>
+        <td>{sumDay(6, projects)}</td>
         <td>{sumWeek(projects)}</td>
     </tr>
 );

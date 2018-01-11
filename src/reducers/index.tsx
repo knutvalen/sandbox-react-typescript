@@ -1,37 +1,34 @@
 import { StoreState, Project, TimeTrackingChangedPayload } from '../types/index';
 import { TimeTrackingAction } from '../actions/index';
-import {find, map} from 'ramda';
+import { find, map } from 'ramda';
 import { TIME_TRACKING_CHANGED, MANAGE_PROJECTS } from '../constants/index';
 
 const defaultState = {
     projects: [
         {
-            name: 'In-House',
-            monday: 0,
-            tuesday: 0,
-            wednesday: 0,
-            thursday: 0,
-            friday: 0,
-            saturday: 0,
-            sunday: 0
+            name: 'RainHouse',
+            week: [0, 0, 0, 0, 0, 0, 0]
         },
         {
             name: 'Monobank',
-            monday: 0,
-            tuesday: 0,
-            wednesday: 0,
-            thursday: 0,
-            friday: 0,
-            saturday: 0,
-            sunday: 0
+            week: [0, 0, 0, 0, 0, 0, 0]
         }
     ]
 };
 
 const updateProject = (projects: Project[], payload: TimeTrackingChangedPayload) => {
     const project = find((project: Project) => project.name === payload.name, projects);
-    if(project) {
-        const updatedProj: Project = {...project, [payload.key]: parseInt(payload.value) };
+    if (project) {
+        const newWeek = project.week.map( (day, index) => {
+            if(index !== payload.key) {
+                // this is not the day we want to update - keep it
+                return day;
+            }
+
+            // otherwise, this is the day we want to update
+            return Number(payload.value);
+        });
+        const updatedProj: Project = { ...project, week: newWeek };
         return map((project: Project) => project.name === payload.name ? updatedProj : project, projects);
     }
     return projects;

@@ -1,13 +1,6 @@
 export interface Project {
     readonly name: string;
-    readonly monday: number;
-    readonly tuesday: number;
-    readonly wednesday: number;
-    readonly thursday: number;
-    readonly friday: number;
-    readonly saturday: number;
-    readonly sunday: number;
-    readonly [key: string]: string | number;
+    readonly week: number[];
 }
 
 export interface StoreState {
@@ -15,7 +8,7 @@ export interface StoreState {
 }
 
 export interface Field {
-    readonly key: string;
+    readonly key: number;
     readonly value: string;
 }
 

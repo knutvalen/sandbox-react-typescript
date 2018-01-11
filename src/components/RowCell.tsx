@@ -3,14 +3,14 @@ import { Field, Func } from '../types/index';
 
 interface RowCellProps {
     readonly value: number;
-    readonly name: string;
+    readonly day: number;
     readonly onChangeAction: Func<Field, void>;
 }
 
-const RowCell: React.SFC<RowCellProps> = ({value, name, onChangeAction}) => (
+const RowCell: React.SFC<RowCellProps> = ({value, day, onChangeAction}) => (
         <td>
             <input type="number" value={value}
-                onChange={((evt: any) => onChangeAction({ key: name, value: evt.target.value }))} />
+                onChange={((evt: any) => onChangeAction({ key: day, value: evt.target.value }))} />
         </td>
     );
 
