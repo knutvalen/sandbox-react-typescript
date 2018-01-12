@@ -13,7 +13,7 @@ interface TimeTrackingProps {
     projects: Project[];
 }
 
-const TimeTracking: React.SFC<TimeTrackingProps> = (props) => {
+const TimeTracking: React.SFC<TimeTrackingProps> = ({timeTrackingChanged, projects}) => {
     return (
         <table>
             <tbody>
@@ -27,8 +27,8 @@ const TimeTracking: React.SFC<TimeTrackingProps> = (props) => {
                     <th>Saturday</th>
                     <th>Sunday</th>
                 </tr>
-                <ProjectsList projects={props.projects} timeTrackingChanged={props.timeTrackingChanged} />
-                <SummaryRow projects={props.projects} />
+                <ProjectsList projects={projects} timeTrackingChanged={timeTrackingChanged} />
+                <SummaryRow projects={projects} />
             </tbody>
         </table>
     );
