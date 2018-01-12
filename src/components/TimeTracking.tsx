@@ -6,10 +6,10 @@ import { StoreState } from '../types/index';
 import SummaryRow from './SummaryRow';
 import { timeTrackingChangedAction, manageProjectsAction } from '../actions/index';
 import ProjectsList from './ProjectsList';
-import {CurriedBinary, Field} from '../types/index';
+import { CurriedBinary, TimeTrackingChangedPayload } from '../types/index';
 
 interface TimeTrackingProps {
-    timeTrackingChanged: CurriedBinary<string, Field, void>;
+    timeTrackingChanged: CurriedBinary<string, TimeTrackingChangedPayload, void>;
     projects: Project[];
     manageProjects: () => void;
 }

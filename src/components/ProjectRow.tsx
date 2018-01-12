@@ -1,31 +1,32 @@
 import * as React from 'react';
-import { Project, BinaryFunc, Field } from '../types/index';
-import {reduce, curry } from 'ramda';
+import { Project, BinaryFunc, TimeTrackingChangedPayload, Day } from '../types/index';
+import { curry, map, reduce } from 'ramda';
 import RowCell from './RowCell';
 
 const getSummary = (project: Project) => {
-    return reduce((acc: number, val: number) => acc + val, 0, project.week);
+    const hours = map((day: Day) => Number(day.hours), project.week);
+    return reduce((acc: number, val: number) => acc + val, 0, hours);
 };
 
 interface ProjectRowProps {
     readonly project: Project;
-    readonly timeTrackingChanged: BinaryFunc<string, Field, void>;
+    readonly timeTrackingChanged: BinaryFunc<string, TimeTrackingChangedPayload, void>;
 }
 
 const onProjectChange = curry(
-    (name: string, onChangeHandler: any, field: Field) => onChangeHandler(name, field)
+    (name: string, onChangeHandler: any, timeTrackingChangedPayload: TimeTrackingChangedPayload) => onChangeHandler(name, timeTrackingChangedPayload)
 );
 
 const ProjectRow: React.SFC<ProjectRowProps> = ({ project, timeTrackingChanged }) => (
     <tr key={project.name}>
         <td>{project.name}</td>
-        <RowCell day={0} value={project.week[0]} onChangeAction={onProjectChange(project.name, timeTrackingChanged)} />
-        <RowCell day={1} value={project.week[1]} onChangeAction={onProjectChange(project.name, timeTrackingChanged)} />
-        <RowCell day={2} value={project.week[2]} onChangeAction={onProjectChange(project.name, timeTrackingChanged)} />
-        <RowCell day={3} value={project.week[3]} onChangeAction={onProjectChange(project.name, timeTrackingChanged)} />
-        <RowCell day={4} value={project.week[4]} onChangeAction={onProjectChange(project.name, timeTrackingChanged)} />
-        <RowCell day={5} value={project.week[5]} onChangeAction={onProjectChange(project.name, timeTrackingChanged)} />
-        <RowCell day={6} value={project.week[6]} onChangeAction={onProjectChange(project.name, timeTrackingChanged)} />
+        <RowCell projectName={project.name} day={project.week[0]} onChangeAction={onProjectChange(project.name, timeTrackingChanged)} />
+        <RowCell projectName={project.name} day={project.week[1]} onChangeAction={onProjectChange(project.name, timeTrackingChanged)} />
+        <RowCell projectName={project.name} day={project.week[2]} onChangeAction={onProjectChange(project.name, timeTrackingChanged)} />
+        <RowCell projectName={project.name} day={project.week[3]} onChangeAction={onProjectChange(project.name, timeTrackingChanged)} />
+        <RowCell projectName={project.name} day={project.week[4]} onChangeAction={onProjectChange(project.name, timeTrackingChanged)} />
+        <RowCell projectName={project.name} day={project.week[5]} onChangeAction={onProjectChange(project.name, timeTrackingChanged)} />
+        <RowCell projectName={project.name} day={project.week[6]} onChangeAction={onProjectChange(project.name, timeTrackingChanged)} />
         <td className="TimeTracking-summary">{getSummary(project)}</td>
     </tr>
 );

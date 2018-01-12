@@ -1,19 +1,22 @@
+export interface Day {
+    readonly name: string;
+    readonly date: string;
+    readonly hours: number;
+}
+
 export interface Project {
     readonly name: string;
-    readonly week: number[];
+    readonly week: Day[];
 }
 
 export interface StoreState {
     readonly projects: Project[];
 }
 
-export interface Field {
-    readonly key: number;
-    readonly value: string;
-}
-
-export interface TimeTrackingChangedPayload extends Field {
-    readonly name: string;
+export interface TimeTrackingChangedPayload {
+    readonly projectName: string;
+    readonly day: Day;
+    readonly hours: number;
 }
 
 export type Func<ParamType, ReturnType> = (p: ParamType) => ReturnType;

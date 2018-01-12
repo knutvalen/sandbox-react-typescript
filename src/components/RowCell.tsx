@@ -1,17 +1,19 @@
 import * as React from 'react';
-import { Field, Func } from '../types/index';
+import { TimeTrackingChangedPayload, Func, Day } from '../types/index';
 
 interface RowCellProps {
-    readonly value: number;
-    readonly day: number;
-    readonly onChangeAction: Func<Field, void>;
+    readonly projectName: string;
+    readonly day: Day;
+    readonly onChangeAction: Func<TimeTrackingChangedPayload, void>;
 }
 
-const RowCell: React.SFC<RowCellProps> = ({value, day, onChangeAction}) => (
+const RowCell: React.SFC<RowCellProps> = ({ projectName, day, onChangeAction }) => {
+    return (
         <td>
-            <input type="number" value={value}
-                onChange={((evt: any) => onChangeAction({ key: day, value: evt.target.value }))} />
+            <input type="number" value={day.hours}
+                onChange={((event: any) => onChangeAction({ projectName: projectName, day: day, hours: event.target.value }))} />
         </td>
-    );
+    )
+};
 
 export default RowCell;
