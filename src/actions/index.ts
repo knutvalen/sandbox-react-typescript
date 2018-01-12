@@ -1,10 +1,10 @@
 import { curry } from 'ramda';
 import * as constants from '../constants';
-import { TimeTrackingChangedPayload } from '../types/index';
+import { TimeTrackingChangedPayload, ManageProjectsPayload } from '../types/index';
 
 export interface ManageProjects {
     readonly type: constants.MANAGE_PROJECTS;
-    readonly payload: any;
+    readonly payload: ManageProjectsPayload;
 }
 
 export interface TimeTrackingChanged {
@@ -19,4 +19,7 @@ export const timeTrackingChangedAction = curry(
         dispatch({ type: constants.TIME_TRACKING_CHANGED, payload: { name: name, ...timeTrackingChangedPayload } })
 );
 
-export const manageProjectsAction = (dispatch: any) => () => dispatch({ type: constants.MANAGE_PROJECTS })
+export const manageProjectsAction = curry(
+    (dispatch: any, manageProjectsPayload: ManageProjectsPayload) => 
+        dispatch({ type: constants.MANAGE_PROJECTS, payload: manageProjectsPayload })
+);

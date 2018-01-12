@@ -11,12 +11,17 @@ export interface Project {
 
 export interface StoreState {
     readonly projects: Project[];
+    readonly managingProjects: boolean;
 }
 
 export interface TimeTrackingChangedPayload {
     readonly projectName: string;
     readonly day: Day;
     readonly hours: number;
+}
+
+export interface ManageProjectsPayload {
+    readonly managingProjects: boolean;
 }
 
 export type Func<ParamType, ReturnType> = (p: ParamType) => ReturnType;

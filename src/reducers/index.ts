@@ -85,7 +85,8 @@ const defaultState = {
                 }
             ]
         }
-    ]
+    ],
+    managingProjects: false
 };
 
 const updateProject = (projects: Project[], payload: TimeTrackingChangedPayload) => {
@@ -115,7 +116,7 @@ export function timeTracking(state: StoreState = defaultState, action: TimeTrack
             const newProjects = updateProject(state.projects, action.payload);
             return { ...state, projects: newProjects };
         case MANAGE_PROJECTS:
-            return { ...state }
+            return { ...state, managingProjects: !action.payload.managingProjects }
         default:
             return state;
     }

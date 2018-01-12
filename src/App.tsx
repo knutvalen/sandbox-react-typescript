@@ -6,6 +6,7 @@ import { Provider } from 'react-redux';
 import { StoreState } from './types/index';
 import { timeTracking } from './reducers/index';
 import logger from 'redux-logger';
+import ManageProjects from './components/ManageProjects';
 
 const store = createStore<StoreState>(timeTracking, applyMiddleware(logger));
 
@@ -13,7 +14,10 @@ class App extends React.Component {
     render() {
         return (
             <Provider store={store}>
-                <TimeTracking />
+                <div>
+                    <ManageProjects />
+                    <TimeTracking />
+                </div>
             </Provider>
         );
     }

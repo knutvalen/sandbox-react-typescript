@@ -13,6 +13,7 @@ interface ProjectRowProps {
     readonly timeTrackingChanged: BinaryFunc<string, TimeTrackingChangedPayload, void>;
 }
 
+// hva skjer her?
 const onProjectChange = curry(
     (name: string, onChangeHandler: any, timeTrackingChangedPayload: TimeTrackingChangedPayload) => onChangeHandler(name, timeTrackingChangedPayload)
 );
