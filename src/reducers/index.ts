@@ -92,10 +92,10 @@ const defaultState = {
 };
 
 const updateProjectActive = (projects: Project[], payload: ActivateProjectPayload) => {
-    const findProject = find((project: Project) => project.name === payload.project.name, projects);
+    const project = find((project: Project) => project.name === payload.project.name, projects);
 
-    if (findProject) {
-        const updatedProject: Project = { ...findProject, active: !payload.project.active };
+    if (project) {
+        const updatedProject: Project = { ...project, active: !payload.project.active };
         return map((project: Project) => project.name === payload.project.name ? updatedProject : project, projects);
     }
 
@@ -103,10 +103,10 @@ const updateProjectActive = (projects: Project[], payload: ActivateProjectPayloa
 };
 
 const updateProjectHours = (projects: Project[], payload: TimeTrackingChangedPayload) => {
-    const findProject = find((project: Project) => project.name === payload.projectName, projects);
+    const project = find((project: Project) => project.name === payload.projectName, projects);
 
-    if (findProject) {
-        const newWeek = findProject.week.map((day, index) => {
+    if (project) {
+        const newWeek = project.week.map((day, index) => {
             if (day.name !== payload.day.name) {
                 // this is not the day we want to update - keep it
                 return day;
@@ -119,7 +119,7 @@ const updateProjectHours = (projects: Project[], payload: TimeTrackingChangedPay
             };
         });
 
-        const updatedProject: Project = { ...findProject, week: newWeek };
+        const updatedProject: Project = { ...project, week: newWeek };
         return map((project: Project) => project.name === payload.projectName ? updatedProject : project, projects);
     }
 
