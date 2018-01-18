@@ -6,6 +6,7 @@ export interface Day {
 
 export interface Project {
     readonly name: string;
+    readonly active: boolean;
     readonly week: Day[];
 }
 
@@ -22,6 +23,10 @@ export interface TimeTrackingChangedPayload {
 
 export interface ManageProjectsPayload {
     readonly managingProjects: boolean;
+}
+
+export interface ActivateProjectPayload {
+    readonly project: Project;
 }
 
 export type Func<ParamType, ReturnType> = (p: ParamType) => ReturnType;

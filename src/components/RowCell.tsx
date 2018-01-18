@@ -10,10 +10,9 @@ interface RowCellProps {
 const RowCell: React.SFC<RowCellProps> = ({ projectName, day, onChangeAction }) => {
     return (
         <td>
-            <input type="number" value={day.hours}
-                onChange={((event: any) => onChangeAction({ projectName: projectName, day: day, hours: event.target.value }))} />
+            <input type="number" value={day.hours} onChange={((event: any) => onChangeAction({ projectName: projectName, day: day, hours: event.target.value }))} />
         </td>
-    )
+    );
 };
 
 export default RowCell;

@@ -9,7 +9,15 @@ interface ProjectsListProps {
 }
 
 const mapProjects = (projects: Project[], timeTrackingChanged: any) =>
-    map((project: Project) => <ProjectRow project={project} timeTrackingChanged={timeTrackingChanged} />, projects);
+    map(
+        (project: Project) => {
+            if (project.active) {
+                return (
+                    <ProjectRow key={project.name} project={project} timeTrackingChanged={timeTrackingChanged} />
+                );
+            }
+            return;
+        }, projects);
 
 const ProjectsList: React.SFC<ProjectsListProps> = ({ projects, timeTrackingChanged }) => (
     <React.Fragment>

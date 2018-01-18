@@ -1,12 +1,13 @@
-import { StoreState, Project, TimeTrackingChangedPayload } from '../types/index';
+import { StoreState, Project, TimeTrackingChangedPayload, ActivateProjectPayload } from '../types/index';
 import { TimeTrackingAction } from '../actions/index';
 import { find, map } from 'ramda';
-import { TIME_TRACKING_CHANGED, MANAGE_PROJECTS } from '../constants/index';
+import { TIME_TRACKING_CHANGED, MANAGE_PROJECTS, ACTIVATE_PROJECT } from '../constants/index';
 
 const defaultState = {
     projects: [
         {
             name: 'RainHouse',
+            active: true,
             week: [
                 {
                     name: 'monday',
@@ -47,6 +48,7 @@ const defaultState = {
         },
         {
             name: 'Monobank',
+            active: true,
             week: [
                 {
                     name: 'monday',
@@ -89,10 +91,22 @@ const defaultState = {
     managingProjects: false
 };
 
-const updateProject = (projects: Project[], payload: TimeTrackingChangedPayload) => {
-    const project = find((project: Project) => project.name === payload.projectName, projects);
-    if (project) {
-        const newWeek = project.week.map((day, index) => {
+const updateProjectActive = (projects: Project[], payload: ActivateProjectPayload) => {
+    const findProject = find((project: Project) => project.name === payload.project.name, projects);
+
+    if (findProject) {
+        const updatedProject: Project = { ...findProject, active: !payload.project.active };
+        return map((project: Project) => project.name === payload.project.name ? updatedProject : project, projects);
+    }
+
+    return projects;
+};
+
+const updateProjectHours = (projects: Project[], payload: TimeTrackingChangedPayload) => {
+    const findProject = find((project: Project) => project.name === payload.projectName, projects);
+
+    if (findProject) {
+        const newWeek = findProject.week.map((day, index) => {
             if (day.name !== payload.day.name) {
                 // this is not the day we want to update - keep it
                 return day;
@@ -102,23 +116,29 @@ const updateProject = (projects: Project[], payload: TimeTrackingChangedPayload)
             return {
                 ...day,
                 hours: payload.hours
-            }
+            };
         });
-        const updatedProj: Project = { ...project, week: newWeek };
-        return map((project: Project) => project.name === payload.projectName ? updatedProj : project, projects);
+
+        const updatedProject: Project = { ...findProject, week: newWeek };
+        return map((project: Project) => project.name === payload.projectName ? updatedProject : project, projects);
     }
+
     return projects;
 };
 
 export function timeTracking(state: StoreState = defaultState, action: TimeTrackingAction): StoreState {
+    var newProjects: Project[];
+
     switch (action.type) {
         case TIME_TRACKING_CHANGED:
-            const newProjects = updateProject(state.projects, action.payload);
+            newProjects = updateProjectHours(state.projects, action.payload);
             return { ...state, projects: newProjects };
         case MANAGE_PROJECTS:
-            return { ...state, managingProjects: !action.payload.managingProjects }
+            return { ...state, managingProjects: !action.payload.managingProjects };
+        case ACTIVATE_PROJECT:
+            newProjects = updateProjectActive(state.projects, action.payload);
+            return { ...state, projects: newProjects };
         default:
             return state;
     }
 }
-
