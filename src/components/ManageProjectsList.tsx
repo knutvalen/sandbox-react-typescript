@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
-import { StoreState, Project, ActivateProjectPayload, Func } from '../types/index';
+import { Project, ActivateProjectPayload, Func } from '../types/index';
 import { map } from 'ramda';
 
 interface ManageProjectsListProps {
@@ -26,12 +25,4 @@ const ManageProjectsList: React.SFC<ManageProjectsListProps> = ({ projects, acti
     );
 };
 
-const mapStateToProps = (state: StoreState) => ({
-
-});
-
-const mapDispatchToProps = (dispatch: any) => ({
-
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(ManageProjectsList);
+export default ManageProjectsList;
