@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Project } from '../types/index';
 import { StoreState } from '../types/index';
 import SummaryRow from './SummaryRow';
-import { timeTrackingChangedAction } from '../actions/index';
+import { timeTrackingChangedAction } from '../actions/TimeTracking';
 import ProjectsList from './ProjectsList';
 import { CurriedBinary, TimeTrackingChangedPayload } from '../types/index';
 import { find } from 'ramda';

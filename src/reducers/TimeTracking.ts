@@ -1,12 +1,12 @@
 import { StoreState, Project, TimeTrackingChangedPayload, ActivateProjectPayload } from '../types/index';
-import { TimeTrackingAction } from '../actions/index';
+import { TimeTrackingAction } from '../actions/TimeTracking';
 import { find, map } from 'ramda';
-import { TIME_TRACKING_CHANGED, MANAGE_PROJECTS, ACTIVATE_PROJECT } from '../constants/index';
+import { TIME_TRACKING_CHANGED, MANAGE_PROJECTS, ACTIVATE_PROJECT } from '../constants';
 
 const defaultState = {
     projects: [
         {
-            name: 'RainHouse',
+            name: 'In-House',
             active: true,
             week: [
                 {

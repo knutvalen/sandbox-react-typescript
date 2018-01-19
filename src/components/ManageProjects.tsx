@@ -2,7 +2,7 @@ import './ManageProjects.css';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { StoreState, Project, Func, ManageProjectsPayload, ActivateProjectPayload } from '../types/index';
-import { manageProjectsAction, activateProjectAction } from '../actions/index';
+import { manageProjectsAction, activateProjectAction } from '../actions/TimeTracking';
 import ManageProjectsList from './ManageProjectsList';
 
 interface ManageProjectsProps {
