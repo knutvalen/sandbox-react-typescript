@@ -15,12 +15,16 @@ const defaultState = {
             id: 0,
             name: 'In-House',
             active: true,
+            hourlyRate: 1000,
+            totalHoursGoal: 150,
             trackedDays: []
         },
         {
             id: 1,
             name: 'Monobank',
             active: true,
+            hourlyRate: 1000,
+            totalHoursGoal: 150,
             trackedDays: []
         }
     ]
@@ -72,17 +76,17 @@ const updateProjectHours = (projects: Project[], weekNumber: number, payload: Ti
 };
 
 export function timeTracking(state: StoreState = defaultState, action: TimeTrackingAction): StoreState {
-    let newProjects: Project[];
+    let updatedProjects: Project[];
     
     switch (action.type) {
         case AT.TimeTrackingChanged:
-            newProjects = updateProjectHours(state.projects, state.weekNumber, action.payload);
-            return { ...state, projects: newProjects };
+            updatedProjects = updateProjectHours(state.projects, state.weekNumber, action.payload);
+            return { ...state, projects: updatedProjects };
         case AT.ManageProjects:
             return { ...state, managingProjects: !action.payload.managingProjects };
         case AT.ActiveProjects:
-            newProjects = updateProjectActive(state.projects, action.payload);
-            return { ...state, projects: newProjects };
+            updatedProjects = updateProjectActive(state.projects, action.payload);
+            return { ...state, projects: updatedProjects };
         case AT.SubmitWeek:
             return { ...state, submitted: !action.payload.submitted };
         case AT.UpdateCurrentWeek:

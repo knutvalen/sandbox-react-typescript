@@ -11,22 +11,11 @@ interface ProjectsListProps {
 
 const filterActiveProjects: Func<Project[], Project[]> = filter((project: Project) => project.active);
 
-// const indexedMap = addIndex(map);
-
-// TODO: get currentWeek down here :D
-// FLYTT DATO GREIENE TIL PROJECT ROW OG MAP WEEK
-
 const mapProjects = curry(
     (timeTrackingChanged: BinaryFunc<string, TimeTrackingChangedPayload, void>, currentWeek: string[], projects: Project[]) =>
-        map(
-            (project: Project) => 
-                <ProjectRow key={project.id} project={project} timeTrackingChanged={timeTrackingChanged} currentWeek={currentWeek} />
-            , 
+        map((project: Project) => 
+                <ProjectRow key={project.id} project={project} timeTrackingChanged={timeTrackingChanged} currentWeek={currentWeek} />,
             projects)
-    // indexedMap(
-    //     (project: Project, index: number) => 
-    // <ProjectRow key={project.name} date={indexOf(index, currentWeek)} project={project} timeTrackingChanged={timeTrackingChanged} />
-    // , projects)
 );
 
 const filterAndMapProjects = 

@@ -25,10 +25,6 @@ const anyActiveProjects = (projects: Project[]) => {
     return findActive ? true : false;
 };
 
-// TODO: Legg til ukenummer på app state. Finn ut dagens uke, og begynn med ukenummeret for den. Når man går til neste uke, ukenummer +1
-// Legg til currentWeek på state som holder på datoer og ukenummer.
-// Når man endrer uke, byttes currentWeek ut med nytt ukenummer og datoer.
-
 const TimeTracking: React.SFC<TimeTrackingProps> = ({ timeTrackingChanged, projects, weekNumber, updateCurrentWeek }) => {
     const currentWeek = getWeek(weekNumber);
     const nextWeekButton = (<button className="ManageProjects-Button" onClick={() => updateCurrentWeek({ number: 1 })} >Next week</button>);
