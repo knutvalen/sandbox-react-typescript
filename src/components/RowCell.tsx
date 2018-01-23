@@ -7,12 +7,16 @@ interface RowCellProps {
     readonly onChangeAction: Func<TimeTrackingChangedPayload, void>;
 }
 
-const RowCell: React.SFC<RowCellProps> = ({ projectName, day, onChangeAction }) => {
-    return (
-        <td>
-            <input type="number" value={day.hours} onChange={((event: any) => onChangeAction({ projectName: projectName, day: day, hours: event.target.value }))} />
-        </td>
-    );
-};
+// TODO: Dont use parseInt
+const RowCell: React.SFC<RowCellProps> = ({ projectName, day, onChangeAction }) => (
+    <td>
+        <input 
+            type="number" 
+            value={day.hours} 
+            onChange={((event: React.ChangeEvent<HTMLInputElement>) => 
+                onChangeAction({ projectName: projectName, day: day, hours: parseInt(event.target.value, 10) }))} 
+        />
+    </td>
+);
 
 export default RowCell;

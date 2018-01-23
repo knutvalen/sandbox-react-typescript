@@ -1,18 +1,25 @@
 export interface Day {
-    readonly name: string;
     readonly date: string;
     readonly hours: number;
 }
 
 export interface Project {
+    readonly id: number;
     readonly name: string;
     readonly active: boolean;
-    readonly week: Day[];
+    readonly trackedDays: Day[];
 }
 
 export interface StoreState {
-    readonly projects: Project[];
     readonly managingProjects: boolean;
+    readonly submitted: boolean;
+    readonly weekNumber: number;
+    readonly currentWeek: string[];
+    readonly projects: Project[];
+}
+
+export interface UpdateCurrentWeekPayload {
+    readonly number: number;
 }
 
 export interface TimeTrackingChangedPayload {
@@ -27,6 +34,10 @@ export interface ManageProjectsPayload {
 
 export interface ActivateProjectPayload {
     readonly project: Project;
+}
+
+export interface SubmitWeekPayload {
+    readonly submitted: boolean;
 }
 
 export type Func<ParamType, ReturnType> = (p: ParamType) => ReturnType;

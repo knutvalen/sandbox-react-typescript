@@ -15,7 +15,8 @@ const mapProjects = (projects: Project[], activateProject: Func<ActivateProjectP
             return (
                 <button key={project.name} className={classes} onClick={() => activateProject({ project: project })}>{project.name}</button>
             );
-        }, projects);
+        }, 
+        projects);
 
 const ManageProjectsList: React.SFC<ManageProjectsListProps> = ({ projects, activateProject }) => {
     return (

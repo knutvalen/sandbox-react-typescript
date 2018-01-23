@@ -1,43 +1,37 @@
 import * as React from 'react';
-import { Project, Func } from '../types/index';
-import { map, sum, pipe } from 'ramda';
+import { Project, Func, Day } from '../types/index';
+import { map, sum, pipe, filter, flatten } from 'ramda';
 
-const mapDay = (dayName: string): Func<Project[], any[]> => map((project: Project) => {
-    for (let day of project.week) {
-        if (day.name === dayName && project.active) {
-            return day.hours;
-        }
-    }
-    return 0;
-});
+const mapHours = map((day: Day) => day.hours);
 
-const sumDay = (dayName: string, projects: Project[]): number => pipe(mapDay(dayName), sum)(projects);
+const mapWeeks = map((project: Project) => project.trackedDays);
 
-const sumWeek = (projects: Project[]) =>
-    sum([sumDay('monday', projects),
-    sumDay('tuesday', projects),
-    sumDay('wednesday', projects),
-    sumDay('thursday', projects),
-    sumDay('friday', projects),
-    sumDay('saturday', projects),
-    sumDay('sunday', projects)]);
+const filterActiveProjects: Func<Project[], Project[]> = filter((project: Project) => project.active);
+
+const filterByDayName = (dayName: string): Func<Day[], Day[]> => filter((day: Day) => day.date === dayName);
+
+const filterMapHours = (dayName: string): Func<Day[], number[]> => pipe(filterByDayName(dayName), mapHours);
+
+const sumDay = (dayName: string, projects: Project[]): number => 
+    pipe(filterActiveProjects, mapWeeks, flatten, filterMapHours(dayName), sum)(projects);
+
+const sumWeek = (currentWeek: string[], projects: Project[]) =>
+    <td>{sum(map((date: string) => sumDay(date, projects), currentWeek))}</td>;
+
+const sumDays = (currentWeek: string[], projects: Project[]) =>
+    map((date: string) => <td>{sumDay(date, projects)}</td>, currentWeek);
 
 interface SummaryRowProps {
     readonly projects: Project[];
+    readonly currentWeek: string[];
 }
 
-const SummaryRow: React.SFC<SummaryRowProps> = ({ projects }) => {
+const SummaryRow: React.SFC<SummaryRowProps> = ({ projects, currentWeek }) => {
     return (
         <tr className="TimeTracking-summary" key={'daySummaryRow'}>
             <td className="TimeTracking-blank" />
-            <td>{sumDay('monday', projects)}</td>
-            <td>{sumDay('tuesday', projects)}</td>
-            <td>{sumDay('wednesday', projects)}</td>
-            <td>{sumDay('thursday', projects)}</td>
-            <td>{sumDay('friday', projects)}</td>
-            <td>{sumDay('saturday', projects)}</td>
-            <td>{sumDay('sunday', projects)}</td>
-            <td>{sumWeek(projects)}</td>
+            {sumDays(currentWeek, projects)}
+            {sumWeek(currentWeek, projects)}
         </tr>
     );
 };
