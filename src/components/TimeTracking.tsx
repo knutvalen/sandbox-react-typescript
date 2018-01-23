@@ -7,7 +7,7 @@ import SummaryRow from './SummaryRow';
 import { timeTrackingChangedAction, updateCurrentWeekAction, TimeTrackingAction } from '../actions/TimeTracking';
 import ProjectsList from './ProjectsList';
 import { CurriedBinary, TimeTrackingChangedPayload, Func, UpdateCurrentWeekPayload } from '../types/index';
-import { find, map } from 'ramda';
+import { find, map, take, takeLast } from 'ramda';
 import * as moment from 'moment';
 
 interface TimeTrackingProps {
@@ -38,6 +38,7 @@ const TimeTracking: React.SFC<TimeTrackingProps> = ({ timeTrackingChanged, proje
     if (anyActiveProjects(projects)) {
         return (
             <div>
+                <span>Ukenummer: {weekNumber} ({take(1, currentWeek)} - {takeLast(1, currentWeek)})</span>
                 <table>
                     <tbody>
                         <tr>
@@ -54,8 +55,8 @@ const TimeTracking: React.SFC<TimeTrackingProps> = ({ timeTrackingChanged, proje
                         <SummaryRow projects={projects} currentWeek={currentWeek} />
                     </tbody>
                 </table>
-                {nextWeekButton}
                 {previousWeekButton}
+                {nextWeekButton}
             </div>
         );
     }

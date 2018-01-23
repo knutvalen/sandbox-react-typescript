@@ -1,30 +1,13 @@
 import * as React from 'react';
 import { Project, BinaryFunc, TimeTrackingChangedPayload, Day } from '../types/index';
-import { curry, map, reduce, find } from 'ramda';
+import { curry, map, reduce, find, filter } from 'ramda';
 import RowCell from './RowCell';
-
-/* 
-
-Mål:
-
-Separere timeføring og ukespresentasjon
-
-project kan være: { id: 1, trackedDays: [{ date: dato her, hours: 5}, ...]}
-
-når timer endrer seg på et prosjekt på en dag, legg til timene og datoen i listen. se etter eksisterende dato, hvis eksisterende, oppdater tallet
-
-tabellen: 
-
-map over currentWeek
-
-*/
 
 const onProjectChange = curry(
     (name: string, onChangeHandler: BinaryFunc<string, TimeTrackingChangedPayload, void>, timeTrackingChangedPayload: TimeTrackingChangedPayload) => 
         onChangeHandler(name, timeTrackingChangedPayload)
 );
 
-// TODO: Flytt ting hit
 const mapWeek = (project: Project, currentWeek: string[], timeTrackingChanged: TimeTrackingChanged) => {
     const week = map(
         (date: string) => {
@@ -43,13 +26,12 @@ const mapWeek = (project: Project, currentWeek: string[], timeTrackingChanged: T
         week);
 };
 
-// map((day: Day) =>
-//     <RowCell projectName={project.name} day={day} onChangeAction={onProjectChange(project.name, timeTrackingChanged)} />
-// , project.trackedDays);
+const filterCurrentWeek = (trackedDays: Day[], currentWeek: string[]) => 
+    filter((day: Day) => !!find((date: string) => day.date === date, currentWeek), trackedDays);
 
 const getSummary = (project: Project, currentWeek: string[]) => {
-    // TODO: use currentWeek
-    const hours = map((day: Day) => Number(day.hours), project.trackedDays);
+    const filteredTrackedDays = filterCurrentWeek(project.trackedDays, currentWeek);
+    const hours = map((day: Day) => day.hours, filteredTrackedDays);
     return reduce((acc: number, val: number) => acc + val, 0, hours);
 };
 
