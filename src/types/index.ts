@@ -14,7 +14,6 @@ export interface Project {
 
 export interface StoreState {
     readonly managingProjects: boolean;
-    readonly submitted: boolean;
     readonly weekNumber: number;
     readonly currentWeek: string[];
     readonly projects: Project[];
@@ -36,10 +35,6 @@ export interface ManageProjectsPayload {
 
 export interface ActivateProjectPayload {
     readonly project: Project;
-}
-
-export interface SubmitWeekPayload {
-    readonly submitted: boolean;
 }
 
 export type Func<ParamType, ReturnType> = (p: ParamType) => ReturnType;

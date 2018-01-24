@@ -18,12 +18,15 @@ interface TimeTrackingProps {
 }
 
 const getWeek = (weekNumber: number) =>
-    map((numDays: number) => moment().week(weekNumber).startOf('week').add(numDays, 'days').format('DD.MM'), [1, 2, 3, 4, 5, 6, 7]);
+    map((numDays: number) => moment().week(weekNumber).startOf('week').add(numDays, 'days').format(), [1, 2, 3, 4, 5, 6, 7]);
 
 const anyActiveProjects = (projects: Project[]) => {
     const findActive = find((project: Project) => project.active, projects);
     return findActive ? true : false;
 };
+
+const getDateFormatted = (date: string) =>
+    moment(date).format('DD.MM');
 
 const TimeTracking: React.SFC<TimeTrackingProps> = ({ timeTrackingChanged, projects, weekNumber, updateCurrentWeek }) => {
     const currentWeek = getWeek(weekNumber);
@@ -34,18 +37,18 @@ const TimeTracking: React.SFC<TimeTrackingProps> = ({ timeTrackingChanged, proje
     if (anyActiveProjects(projects)) {
         return (
             <div>
-                <span>Ukenummer: {weekNumber} ({take(1, currentWeek)} - {takeLast(1, currentWeek)})</span>
+                <span>Week: {weekNumber} ({getDateFormatted(take(1, currentWeek)[0])} - {getDateFormatted(takeLast(1, currentWeek)[0])})</span>
                 <table>
                     <tbody>
                         <tr>
                             <th>Project</th>
-                            <th>Monday {currentWeek[0]}</th>
-                            <th>Tuesday {currentWeek[1]}</th>
-                            <th>Wednesday {currentWeek[2]}</th>
-                            <th>Thursday {currentWeek[3]}</th>
-                            <th>Friday {currentWeek[4]}</th>
-                            <th>Saturday {currentWeek[5]}</th>
-                            <th>Sunday {currentWeek[6]}</th>
+                            <th>Monday {getDateFormatted(currentWeek[0])}</th>
+                            <th>Tuesday {getDateFormatted(currentWeek[1])}</th>
+                            <th>Wednesday {getDateFormatted(currentWeek[2])}</th>
+                            <th>Thursday {getDateFormatted(currentWeek[3])}</th>
+                            <th>Friday {getDateFormatted(currentWeek[4])}</th>
+                            <th>Saturday {getDateFormatted(currentWeek[5])}</th>
+                            <th>Sunday {getDateFormatted(currentWeek[6])}</th>
                         </tr>
                         <ProjectsList projects={projects} timeTrackingChanged={timeTrackingChanged} currentWeek={currentWeek} />
                         <SummaryRow projects={projects} currentWeek={currentWeek} />

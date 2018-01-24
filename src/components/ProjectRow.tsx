@@ -21,8 +21,14 @@ const mapWeek = (project: Project, currentWeek: string[], timeTrackingChanged: T
 
     return map(
         (day: Day) =>
-        <RowCell projectName={project.name} day={day} onChangeAction={onProjectChange(project.name, timeTrackingChanged)} />
-        , 
+        (
+            <RowCell 
+                key={project.id + day.date} 
+                projectName={project.name} 
+                day={day} 
+                onChangeAction={onProjectChange(project.name, timeTrackingChanged)} 
+            />
+        ), 
         week);
 };
 

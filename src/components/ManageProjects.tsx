@@ -1,8 +1,8 @@
 import './ManageProjects.css';
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { StoreState, Project, Func, ManageProjectsPayload, ActivateProjectPayload, SubmitWeekPayload } from '../types/index';
-import { manageProjectsAction, activateProjectAction, submitWeekAction, TimeTrackingAction as Action } from '../actions/TimeTracking';
+import { StoreState, Project, Func, ManageProjectsPayload, ActivateProjectPayload } from '../types/index';
+import { manageProjectsAction, activateProjectAction, TimeTrackingAction as Action } from '../actions/TimeTracking';
 import ManageProjectsList from './ManageProjectsList';
 
 interface ManageProjectsProps {
@@ -10,26 +10,20 @@ interface ManageProjectsProps {
     manageProjects: Func<ManageProjectsPayload, void>;
     activateProject: Func<ActivateProjectPayload, void>;
     projects: Project[];
-    submitWeek: Func<SubmitWeekPayload, void>;
-    submitted: boolean;
 }
 
-const ManageProjects: React.SFC<ManageProjectsProps> = ({ managingProjects, manageProjects, activateProject, projects, submitWeek, submitted }) => {
+const ManageProjects: React.SFC<ManageProjectsProps> = ({ managingProjects, manageProjects, activateProject, projects }) => {
     const managingProjectsText = managingProjects ? 'Done' : 'Manage projects';
-    const submitWeekText = submitted ? 'Week submitted' : 'Submit week';
     const manageProjectsButton = 
         (
         <button className="ManageProjects-Button" onClick={() => manageProjects({ managingProjects: managingProjects })}>
                 {managingProjectsText}
         </button>);
-    const submitWeekButton = 
-        (<button className="ManageProjects-Button" onClick={() => submitWeek({ submitted: submitted })}>{submitWeekText}</button>);
 
     if (managingProjects) {
         return (
             <div>
                 {manageProjectsButton}
-                {submitWeekButton}
                 <div>
                     <ManageProjectsList projects={projects} activateProject={activateProject} />
                 </div>
@@ -39,21 +33,18 @@ const ManageProjects: React.SFC<ManageProjectsProps> = ({ managingProjects, mana
     return (
         <div>
             {manageProjectsButton}
-            {submitWeekButton}
         </div>
     );
 };
 
 const mapStateToProps = (state: StoreState) => ({
     managingProjects: state.managingProjects,
-    projects: state.projects,
-    submitted: state.submitted
+    projects: state.projects
 });
 
 const mapDispatchToProps = (dispatch: Func<Action, void>) => ({
     manageProjects: manageProjectsAction(dispatch),
-    activateProject: activateProjectAction(dispatch),
-    submitWeek: submitWeekAction(dispatch)
+    activateProject: activateProjectAction(dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ManageProjects);

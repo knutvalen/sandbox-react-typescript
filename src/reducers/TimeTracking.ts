@@ -5,26 +5,23 @@ import AT from '../constants';
 
 const defaultState = {
     managingProjects: false,
-    submitted: false,
     weekNumber: 1,
-    currentWeek: [
-
-    ],
+    currentWeek: [],
     projects: [
         {
             id: 0,
             name: 'In-House',
             active: true,
             hourlyRate: 1000,
-            totalHoursGoal: 150,
+            totalHoursGoal: 80,
             trackedDays: []
         },
         {
             id: 1,
             name: 'Monobank',
             active: true,
-            hourlyRate: 1000,
-            totalHoursGoal: 150,
+            hourlyRate: 1500,
+            totalHoursGoal: 70,
             trackedDays: []
         }
     ]
@@ -87,8 +84,6 @@ export function timeTracking(state: StoreState = defaultState, action: TimeTrack
         case AT.ActiveProjects:
             updatedProjects = updateProjectActive(state.projects, action.payload);
             return { ...state, projects: updatedProjects };
-        case AT.SubmitWeek:
-            return { ...state, submitted: !action.payload.submitted };
         case AT.UpdateCurrentWeek:
             return {...state, weekNumber: state.weekNumber + action.payload.number};
         default:

@@ -5,10 +5,12 @@ import { TimeTrackingAction } from '../actions/TimeTracking';
 import { Project } from '../types/index';
 import * as moment from 'moment';
 import OverviewList from './OverviewList';
+import OverviewSummaryRow from './OverviewSummaryRow';
+import './Overview.css';
 
 interface OverviewProps {
-    projects: Project[];
-    weekNumber: number;
+    readonly projects: Project[];
+    readonly weekNumber: number;
 }
 
 const getMonthNumber = (weekNumber: number) =>
@@ -21,7 +23,7 @@ const Overview: React.SFC<OverviewProps> = ({ projects, weekNumber }) => {
     const currentMonth = getMonthNumber(weekNumber);
     return (
         <div>
-            <span>Overview {getMonthName(weekNumber)}</span>
+            <span>Overview: {getMonthName(weekNumber)}</span>
             <table>
                 <tbody>
                     <tr>
@@ -30,6 +32,7 @@ const Overview: React.SFC<OverviewProps> = ({ projects, weekNumber }) => {
                         <th>Earnings</th>
                     </tr>
                     <OverviewList projects={projects} currentMonth={currentMonth} />
+                    <OverviewSummaryRow projects={projects} currentMonth={currentMonth} />
                 </tbody>
             </table>
         </div>

@@ -18,11 +18,6 @@ export interface ActivateProject {
     readonly payload: T.ActivateProjectPayload;
 }
 
-export interface SubmitWeek {
-    readonly type: Constants.SubmitWeek;
-    readonly payload: T.SubmitWeekPayload;
-}
-
 export interface UpdateCurrentWeek {
     readonly type: Constants.UpdateCurrentWeek;
     readonly payload: T.UpdateCurrentWeekPayload;
@@ -32,13 +27,7 @@ export type TimeTrackingAction
 = TimeTrackingChanged 
 | ManageProjects 
 | ActivateProject 
-| SubmitWeek 
 | UpdateCurrentWeek;
-
-export const submitWeekAction = curry(
-    (dispatch: Func<SubmitWeek, void>, submitWeekPayload: T.SubmitWeekPayload) =>
-        dispatch({ type: Constants.SubmitWeek, payload: submitWeekPayload })
-);
 
 export const activateProjectAction = curry(
     (dispatch: Func<ActivateProject, void>, activateProjectPayload: T.ActivateProjectPayload) =>

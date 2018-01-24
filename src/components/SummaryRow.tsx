@@ -19,7 +19,7 @@ const sumWeek = (currentWeek: string[], projects: Project[]) =>
     <td>{sum(map((date: string) => sumDay(date, projects), currentWeek))}</td>;
 
 const sumDays = (currentWeek: string[], projects: Project[]) =>
-    map((date: string) => <td>{sumDay(date, projects)}</td>, currentWeek);
+    map((date: string) => <td key={date}>{sumDay(date, projects)}</td>, currentWeek);
 
 interface SummaryRowProps {
     readonly projects: Project[];
