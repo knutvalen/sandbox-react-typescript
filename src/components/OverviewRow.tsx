@@ -19,7 +19,7 @@ const OverviewRow: React.SFC<OverviewRowProps> = ({ project, currentMonth }) => 
     return (
         <tr key={project.id}>
             <td>{project.name} ({project.hourlyRate} NOK/h)</td>
-            <td>{hours}/{project.totalHoursGoal}</td>
+            <td>{hours}</td>
             <td>{hours * project.hourlyRate}</td>
         </tr>
     );
