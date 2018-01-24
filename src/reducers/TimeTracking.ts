@@ -2,11 +2,11 @@ import { StoreState, Project, TimeTrackingChangedPayload, ActivateProjectPayload
 import { TimeTrackingAction } from '../actions/TimeTracking';
 import { find, map } from 'ramda';
 import AT from '../constants';
+import * as moment from 'moment';
 
 const defaultState = {
     managingProjects: false,
     weekNumber: 1,
-    currentWeek: [],
     projects: [
         {
             id: 0,
@@ -72,6 +72,23 @@ const updateProjectHours = (projects: Project[], weekNumber: number, payload: Ti
     return projects;
 };
 
+const updateWeekNumber = (currentWeek: string[], updateNumber: number) => {
+    let week;
+
+    switch (updateNumber) {
+        case 1:
+            week = moment(currentWeek[0]).add(1, 'week').format('W');
+            break;
+        case -1:
+            week = moment(currentWeek[0]).subtract(1, 'week').format('W');
+            break;
+        default:
+            break;
+    }
+    
+    return Number(week);
+};
+
 export function timeTracking(state: StoreState = defaultState, action: TimeTrackingAction): StoreState {
     let updatedProjects: Project[];
     
@@ -85,7 +102,7 @@ export function timeTracking(state: StoreState = defaultState, action: TimeTrack
             updatedProjects = updateProjectActive(state.projects, action.payload);
             return { ...state, projects: updatedProjects };
         case AT.UpdateCurrentWeek:
-            return {...state, weekNumber: state.weekNumber + action.payload.number};
+            return {...state, weekNumber: updateWeekNumber(action.payload.currentWeek, action.payload.updateNumber)};
         default:
             return state;
     }

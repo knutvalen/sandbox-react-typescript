@@ -30,9 +30,20 @@ const getDateFormatted = (date: string) =>
 
 const TimeTracking: React.SFC<TimeTrackingProps> = ({ timeTrackingChanged, projects, weekNumber, updateCurrentWeek }) => {
     const currentWeek = getWeek(weekNumber);
-    const nextWeekButton = (<button className="ManageProjects-Button" onClick={() => updateCurrentWeek({ number: 1 })} >Next week</button>);
-    const previousWeekButton = 
-        <button className="ManageProjects-Button" onClick={() => updateCurrentWeek({ number: (-1) })} >Previous week</button>;
+    const nextWeekButton = (
+        <button 
+            className="ManageProjects-Button" 
+            onClick={() => updateCurrentWeek({ updateNumber: 1, currentWeek: currentWeek })}
+        >Next week
+        </button>
+    );
+    const previousWeekButton = (
+        <button 
+            className="ManageProjects-Button" 
+            onClick={() => updateCurrentWeek({ updateNumber: (-1), currentWeek: currentWeek })} 
+        >Previous week
+        </button>
+    );
 
     if (anyActiveProjects(projects)) {
         return (

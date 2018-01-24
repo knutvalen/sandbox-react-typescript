@@ -15,12 +15,12 @@ export interface Project {
 export interface StoreState {
     readonly managingProjects: boolean;
     readonly weekNumber: number;
-    readonly currentWeek: string[];
     readonly projects: Project[];
 }
 
 export interface UpdateCurrentWeekPayload {
-    readonly number: number;
+    readonly updateNumber: number;
+    readonly currentWeek: string[];
 }
 
 export interface TimeTrackingChangedPayload {
