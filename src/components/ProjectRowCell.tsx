@@ -1,14 +1,14 @@
 import * as React from 'react';
-import { TimeTrackingChangedPayload, Func, Day } from '../types/index';
+import { WeekViewChangedPayload, Func, Day } from '../types/TimeTracking';
 
-interface RowCellProps {
+interface ProjectRowCellProps {
     readonly projectName: string;
     readonly day: Day;
-    readonly onChangeAction: Func<TimeTrackingChangedPayload, void>;
+    readonly onChangeAction: Func<WeekViewChangedPayload, void>;
 }
 
 // TODO: Dont use parseInt
-const RowCell: React.SFC<RowCellProps> = ({ projectName, day, onChangeAction }) => (
+const ProjectRowCell: React.SFC<ProjectRowCellProps> = ({ projectName, day, onChangeAction }) => (
     <td>
         <input 
             type="number" 
@@ -19,4 +19,4 @@ const RowCell: React.SFC<RowCellProps> = ({ projectName, day, onChangeAction }) 
     </td>
 );
 
-export default RowCell;
+export default ProjectRowCell;

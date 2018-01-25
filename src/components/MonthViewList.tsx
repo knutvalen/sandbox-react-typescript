@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { Project } from '../types/index';
+import { Project } from '../types/TimeTracking';
 import { map } from 'ramda';
-import OverviewRow from './OverviewRow';
+import MonthViewRow from './MonthViewRow';
 
-interface OverviewListProps {
+interface MonthViewListProps {
     readonly projects: Project[];
     readonly currentMonth: number;
 }
@@ -11,14 +11,14 @@ interface OverviewListProps {
 const mapProjects = (projects: Project[], currentMonth: number) => {
     return map(
         (project: Project) =>
-            <OverviewRow key={project.id} project={project} currentMonth={currentMonth} />,
+            <MonthViewRow key={project.id} project={project} currentMonth={currentMonth} />,
         projects);
 };
 
-const OverviewList: React.SFC<OverviewListProps> = ({ projects, currentMonth }) => (
+const MonthViewList: React.SFC<MonthViewListProps> = ({ projects, currentMonth }) => (
     <React.Fragment>
         {mapProjects(projects, currentMonth)}
     </React.Fragment>
 );
 
-export default OverviewList;
+export default MonthViewList;

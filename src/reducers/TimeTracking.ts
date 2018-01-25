@@ -1,4 +1,4 @@
-import { StoreState, Project, TimeTrackingChangedPayload, ActivateProjectPayload, Day } from '../types/index';
+import { StoreState, Project, WeekViewChangedPayload, ActivateProjectPayload, Day } from '../types/TimeTracking';
 import { TimeTrackingAction } from '../actions/TimeTracking';
 import { find, map } from 'ramda';
 import AT from '../constants';
@@ -10,25 +10,32 @@ const defaultState = {
     projects: [
         {
             id: 0,
-            name: 'Off work',
+            name: 'Time off',
             active: true,
             hourlyRate: 0,
             trackedDays: []
         },
         {
             id: 1,
-            name: 'In-House',
+            name: 'Vacation',
             active: true,
-            hourlyRate: 1000,
+            hourlyRate: 0,
             trackedDays: []
         },
         {
             id: 2,
             name: 'Monobank',
             active: true,
-            hourlyRate: 1500,
+            hourlyRate: 150,
             trackedDays: []
-        }
+        },
+        {
+            id: 3,
+            name: 'In-House',
+            active: true,
+            hourlyRate: 100,
+            trackedDays: []
+        },
     ]
 };
 
@@ -43,7 +50,7 @@ const updateProjectActive = (projects: Project[], payload: ActivateProjectPayloa
     return projects;
 };
 
-const updateProjectHours = (projects: Project[], weekNumber: number, payload: TimeTrackingChangedPayload) => {
+const updateProjectHours = (projects: Project[], weekNumber: number, payload: WeekViewChangedPayload) => {
     const project = find((existingProject: Project) => existingProject.name === payload.projectName, projects);
 
     if (project) {
@@ -98,7 +105,7 @@ export function timeTracking(state: StoreState = defaultState, action: TimeTrack
     let updatedProjects: Project[];
     
     switch (action.type) {
-        case AT.TimeTrackingChanged:
+        case AT.WeekViewChanged:
             updatedProjects = updateProjectHours(state.projects, state.weekNumber, action.payload);
             return { ...state, projects: updatedProjects };
         case AT.ManageProjects:

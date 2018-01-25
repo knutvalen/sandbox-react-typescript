@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { Project, Day } from '../types/index';
+import { Project, Day } from '../types/TimeTracking';
 import { map, sum, reduce, pipe, filter, curry } from 'ramda';
 import * as moment from 'moment';
 
-interface OverviewSummaryRowProps {
+interface MonthViewSummaryRowProps {
     readonly projects: Project[];
     readonly currentMonth: number;
     readonly hoursGoal: number;
@@ -35,16 +35,16 @@ const getHoursForProjects = (projects: Project[], currentMonth: number) =>
             }, 
             projects));
 
-const OverviewSummaryRow: React.SFC<OverviewSummaryRowProps> = ({ projects, currentMonth, hoursGoal }) => {
+const MonthViewSummaryRow: React.SFC<MonthViewSummaryRowProps> = ({ projects, currentMonth, hoursGoal }) => {
     const hours = getHoursForProjects(projects, currentMonth);
     const earnings = getEarningsForProjects(projects, currentMonth);
     return (
-        <tr key={currentMonth} className="Overview-summary">
-            <td className="Overview-blank" />
+        <tr key={currentMonth} className="MonthView-summary">
+            <td className="MonthView-blank" />
             <td>{hours}/{hoursGoal}</td>
             <td>{earnings}</td>
         </tr>
     );
 };
 
-export default OverviewSummaryRow;
+export default MonthViewSummaryRow;

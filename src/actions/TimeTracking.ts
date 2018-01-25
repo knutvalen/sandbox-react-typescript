@@ -1,11 +1,11 @@
 import { curry } from 'ramda';
 import Constants from '../constants';
-import { Func } from '../types/index';
-import * as T from '../types/index';
+import { Func } from '../types/TimeTracking';
+import * as T from '../types/TimeTracking';
 
-export interface TimeTrackingChanged {
-    readonly type: Constants.TimeTrackingChanged;
-    readonly payload: T.TimeTrackingChangedPayload;
+export interface WeekViewChanged {
+    readonly type: Constants.WeekViewChanged;
+    readonly payload: T.WeekViewChangedPayload;
 }
 
 export interface ManageProjects {
@@ -24,7 +24,7 @@ export interface UpdateCurrentWeek {
 }
 
 export type TimeTrackingAction 
-= TimeTrackingChanged 
+= WeekViewChanged 
 | ManageProjects 
 | ActivateProject 
 | UpdateCurrentWeek;
@@ -34,9 +34,9 @@ export const activateProjectAction = curry(
         dispatch({ type: Constants.ActiveProjects, payload: activateProjectPayload })
 );
 
-export const timeTrackingChangedAction = curry(
-    (dispatch: Func<TimeTrackingChanged, void>, name: string, timeTrackingChangedPayload: T.TimeTrackingChangedPayload) =>
-        dispatch({ type: Constants.TimeTrackingChanged, payload: timeTrackingChangedPayload })
+export const WeekViewChangedAction = curry(
+    (dispatch: Func<WeekViewChanged, void>, name: string, WeekViewChangedPayload: T.WeekViewChangedPayload) =>
+        dispatch({ type: Constants.WeekViewChanged, payload: WeekViewChangedPayload })
 );
 
 export const manageProjectsAction = curry(

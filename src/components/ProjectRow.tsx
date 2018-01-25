@@ -1,14 +1,14 @@
 import * as React from 'react';
-import { Project, BinaryFunc, TimeTrackingChangedPayload, Day } from '../types/index';
+import { Project, BinaryFunc, WeekViewChangedPayload, Day } from '../types/TimeTracking';
 import { curry, map, reduce, find, filter } from 'ramda';
-import RowCell from './RowCell';
+import ProjectRowCell from './ProjectRowCell';
 
 const onProjectChange = curry(
-    (name: string, onChangeHandler: BinaryFunc<string, TimeTrackingChangedPayload, void>, timeTrackingChangedPayload: TimeTrackingChangedPayload) => 
-        onChangeHandler(name, timeTrackingChangedPayload)
+    (name: string, onChangeHandler: BinaryFunc<string, WeekViewChangedPayload, void>, weekViewChangedPayload: WeekViewChangedPayload) => 
+        onChangeHandler(name, weekViewChangedPayload)
 );
 
-const mapWeek = (project: Project, currentWeek: string[], timeTrackingChanged: TimeTrackingChanged) => {
+const mapWeek = (project: Project, currentWeek: string[], weekViewChanged: WeekViewChanged) => {
     const week = map(
         (date: string) => {
         let day = find((existingDay: Day) => existingDay.date === date, project.trackedDays);
@@ -22,11 +22,11 @@ const mapWeek = (project: Project, currentWeek: string[], timeTrackingChanged: T
     return map(
         (day: Day) =>
         (
-            <RowCell 
+            <ProjectRowCell
                 key={project.id + day.date} 
                 projectName={project.name} 
                 day={day} 
-                onChangeAction={onProjectChange(project.name, timeTrackingChanged)} 
+                onChangeAction={onProjectChange(project.name, weekViewChanged)} 
             />
         ), 
         week);
@@ -41,19 +41,19 @@ const getSummary = (project: Project, currentWeek: string[]) => {
     return reduce((acc: number, val: number) => acc + val, 0, hours);
 };
 
-type TimeTrackingChanged = BinaryFunc<string, TimeTrackingChangedPayload, void>;
+type WeekViewChanged = BinaryFunc<string, WeekViewChangedPayload, void>;
 
 interface ProjectRowProps {
     readonly project: Project;
-    readonly timeTrackingChanged: TimeTrackingChanged;
+    readonly weekViewChanged: WeekViewChanged;
     readonly currentWeek: string[];
 }
 
-const ProjectRow: React.SFC<ProjectRowProps> = ({ project, timeTrackingChanged, currentWeek }) => (
+const ProjectRow: React.SFC<ProjectRowProps> = ({ project, weekViewChanged, currentWeek }) => (
     <tr key={project.id}>
         <td>{project.name}</td>
-        {mapWeek(project, currentWeek, timeTrackingChanged)}
-        <td className="TimeTracking-summary">{getSummary(project, currentWeek)}</td>
+        {mapWeek(project, currentWeek, weekViewChanged)}
+        <td className="WeekView-summary">{getSummary(project, currentWeek)}</td>
     </tr>
 );
 

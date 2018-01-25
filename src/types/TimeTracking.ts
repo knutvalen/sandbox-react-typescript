@@ -22,7 +22,7 @@ export interface UpdateCurrentWeekPayload {
     readonly currentWeek: string[];
 }
 
-export interface TimeTrackingChangedPayload {
+export interface WeekViewChangedPayload {
     readonly projectName: string;
     readonly day: Day;
     readonly hours: number;

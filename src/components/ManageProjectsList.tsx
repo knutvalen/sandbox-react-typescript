@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Project, ActivateProjectPayload, Func } from '../types/index';
+import { Project, ActivateProjectPayload, Func } from '../types/TimeTracking';
 import { map } from 'ramda';
 
 interface ManageProjectsListProps {

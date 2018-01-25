@@ -1,17 +1,15 @@
-import './TimeTracking.css';
+import './WeekView.css';
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Project } from '../types/index';
-import { StoreState } from '../types/index';
-import SummaryRow from './SummaryRow';
-import { timeTrackingChangedAction, updateCurrentWeekAction, TimeTrackingAction } from '../actions/TimeTracking';
-import ProjectsList from './ProjectsList';
-import { CurriedBinary, TimeTrackingChangedPayload, Func, UpdateCurrentWeekPayload } from '../types/index';
+import ProjectSummaryRow from './ProjectSummaryRow';
+import { WeekViewChangedAction, updateCurrentWeekAction, TimeTrackingAction } from '../actions/TimeTracking';
+import ProjectList from './ProjectList';
+import { CurriedBinary, WeekViewChangedPayload, Func, UpdateCurrentWeekPayload, Project, StoreState } from '../types/TimeTracking';
 import { find, map, take, takeLast } from 'ramda';
 import * as moment from 'moment';
 
-interface TimeTrackingProps {
-    timeTrackingChanged: CurriedBinary<string, TimeTrackingChangedPayload, void>;
+interface WeekViewProps {
+    weekViewChanged: CurriedBinary<string, WeekViewChangedPayload, void>;
     updateCurrentWeek: Func<UpdateCurrentWeekPayload, void>;
     projects: Project[];
     weekNumber: number;
@@ -28,7 +26,7 @@ const anyActiveProjects = (projects: Project[]) => {
 const getDateFormatted = (date: string) =>
     moment(date).format('DD.MM');
 
-const TimeTracking: React.SFC<TimeTrackingProps> = ({ timeTrackingChanged, projects, weekNumber, updateCurrentWeek }) => {
+const WeekView: React.SFC<WeekViewProps> = ({ weekViewChanged, projects, weekNumber, updateCurrentWeek }) => {
     const currentWeek = getWeek(weekNumber);
     const nextWeekButton = (
         <button 
@@ -61,8 +59,8 @@ const TimeTracking: React.SFC<TimeTrackingProps> = ({ timeTrackingChanged, proje
                             <th>Saturday {getDateFormatted(currentWeek[5])}</th>
                             <th>Sunday {getDateFormatted(currentWeek[6])}</th>
                         </tr>
-                        <ProjectsList projects={projects} timeTrackingChanged={timeTrackingChanged} currentWeek={currentWeek} />
-                        <SummaryRow projects={projects} currentWeek={currentWeek} />
+                        <ProjectList projects={projects} weekViewChanged={weekViewChanged} currentWeek={currentWeek} />
+                        <ProjectSummaryRow projects={projects} currentWeek={currentWeek} />
                     </tbody>
                 </table>
                 {previousWeekButton}
@@ -84,8 +82,8 @@ const mapStateToProps = (state: StoreState) => ({
 });
 
 const mapDispatchToProps = (dispatch: Func<TimeTrackingAction, void>) => ({
-    timeTrackingChanged: timeTrackingChangedAction(dispatch),
+    weekViewChanged: WeekViewChangedAction(dispatch),
     updateCurrentWeek: updateCurrentWeekAction(dispatch)
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(TimeTracking);
+export default connect(mapStateToProps, mapDispatchToProps)(WeekView);

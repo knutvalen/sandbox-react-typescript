@@ -1,15 +1,15 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { StoreState, Func } from '../types/index';
+import { StoreState, Func } from '../types/TimeTracking';
 import { TimeTrackingAction } from '../actions/TimeTracking';
-import { Project } from '../types/index';
+import { Project } from '../types/TimeTracking';
 import * as moment from 'moment';
-import OverviewList from './OverviewList';
-import OverviewSummaryRow from './OverviewSummaryRow';
-import './Overview.css';
+import MonthViewList from './MonthViewList';
+import MonthViewSummaryRow from './MonthViewSummaryRow';
+import './MonthView.css';
 import { map, filter } from 'ramda';
 
-interface OverviewProps {
+interface MonthViewProps {
     readonly projects: Project[];
     readonly weekNumber: number;
 }
@@ -38,14 +38,14 @@ const getWorkDays = (monthName: string) => {
     return mappedMonthWithNoWeekends.length;
 };
 
-const Overview: React.SFC<OverviewProps> = ({ projects, weekNumber }) => {
+const MonthView: React.SFC<MonthViewProps> = ({ projects, weekNumber }) => {
     const monthNumber = getMonthNumber(weekNumber);
     const monthName = getMonthName(weekNumber);
     const workDays = getWorkDays(monthName);
     const hoursGoal = workDays * 7.5;
     return (
         <div>
-            <span>Overview: {monthName}</span>
+            <span>Month: {monthName}</span>
             <table>
                 <tbody>
                     <tr>
@@ -53,8 +53,8 @@ const Overview: React.SFC<OverviewProps> = ({ projects, weekNumber }) => {
                         <th>Hours</th>
                         <th>Earnings</th>
                     </tr>
-                    <OverviewList projects={projects} currentMonth={monthNumber} />
-                    <OverviewSummaryRow projects={projects} currentMonth={monthNumber} hoursGoal={hoursGoal}/>
+                    <MonthViewList projects={projects} currentMonth={monthNumber} />
+                    <MonthViewSummaryRow projects={projects} currentMonth={monthNumber} hoursGoal={hoursGoal}/>
                 </tbody>
             </table>
         </div>
@@ -70,4 +70,4 @@ const mapDispatchToProps = (dispatch: Func<TimeTrackingAction, void>) => ({
     
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Overview);
+export default connect(mapStateToProps, mapDispatchToProps)(MonthView);

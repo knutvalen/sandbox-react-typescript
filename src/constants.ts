@@ -1,5 +1,5 @@
 enum Constants { 
-    TimeTrackingChanged = 'TIME_TRACKING_CHANGED',
+    WeekViewChanged = 'WEEK_VIEW_CHANGED',
     ManageProjects = 'MANAGE_PROJECTS',
     ActiveProjects = 'ACTIVE_PROJECTS',
     SubmitWeek = 'SUBMIT_WEEK',

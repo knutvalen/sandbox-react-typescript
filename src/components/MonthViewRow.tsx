@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { Project, Day } from '../types/index';
+import { Project, Day } from '../types/TimeTracking';
 import { map, filter, sum, pipe } from 'ramda';
 import * as moment from 'moment';
 
-interface OverviewRowProps {
+interface MonthViewRowProps {
     readonly project: Project;
     readonly currentMonth: number;
 }
@@ -14,7 +14,7 @@ const mapHours = (trackedDays: Day[]) =>
 const filterTrackedDays = (trackedDays: Day[], currentMonth: number) =>
     filter((day: Day) => currentMonth === moment(day.date).month(), trackedDays);
 
-const OverviewRow: React.SFC<OverviewRowProps> = ({ project, currentMonth }) => {
+const MonthViewRow: React.SFC<MonthViewRowProps> = ({ project, currentMonth }) => {
     const hours = pipe(filterTrackedDays, mapHours, sum)(project.trackedDays, currentMonth);
     return (
         <tr key={project.id}>
@@ -25,4 +25,4 @@ const OverviewRow: React.SFC<OverviewRowProps> = ({ project, currentMonth }) => 
     );
 };
 
-export default OverviewRow;
+export default MonthViewRow;

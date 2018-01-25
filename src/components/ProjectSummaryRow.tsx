@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Project, Func, Day } from '../types/index';
+import { Project, Func, Day } from '../types/TimeTracking';
 import { map, sum, pipe, filter, flatten } from 'ramda';
 
 const mapHours = map((day: Day) => day.hours);
@@ -15,25 +15,25 @@ const filterMapHours = (dayName: string): Func<Day[], number[]> => pipe(filterBy
 const sumDay = (dayName: string, projects: Project[]): number => 
     pipe(filterActiveProjects, mapWeeks, flatten, filterMapHours(dayName), sum)(projects);
 
-const sumWeek = (currentWeek: string[], projects: Project[]) =>
+const sumWeek = (projects: Project[], currentWeek: string[]) =>
     <td>{sum(map((date: string) => sumDay(date, projects), currentWeek))}</td>;
 
-const sumDays = (currentWeek: string[], projects: Project[]) =>
+const sumDays = (projects: Project[], currentWeek: string[]) =>
     map((date: string) => <td key={date}>{sumDay(date, projects)}</td>, currentWeek);
 
-interface SummaryRowProps {
+interface ProjectSummaryRowProps {
     readonly projects: Project[];
     readonly currentWeek: string[];
 }
 
-const SummaryRow: React.SFC<SummaryRowProps> = ({ projects, currentWeek }) => {
+const ProjectSummaryRow: React.SFC<ProjectSummaryRowProps> = ({ projects, currentWeek }) => {
     return (
-        <tr className="TimeTracking-summary" key={'daySummaryRow'}>
-            <td className="TimeTracking-blank" />
-            {sumDays(currentWeek, projects)}
-            {sumWeek(currentWeek, projects)}
+        <tr className="WeekView-summary" key={'daySummaryRow'}>
+            <td className="WeekView-blank" />
+            {sumDays(projects, currentWeek)}
+            {sumWeek(projects, currentWeek)}
         </tr>
     );
 };
 
-export default SummaryRow;
+export default ProjectSummaryRow;
