@@ -10,15 +10,26 @@ const defaultState = {
     projects: [
         {
             id: 0,
+            name: 'Off work',
+            type: 'off',
+            active: true,
+            hourlyRate: 0,
+            totalHoursGoal: 0,
+            trackedDays: []
+        },
+        {
+            id: 1,
             name: 'In-House',
+            type: 'billable',
             active: true,
             hourlyRate: 1000,
             totalHoursGoal: 80,
             trackedDays: []
         },
         {
-            id: 1,
+            id: 2,
             name: 'Monobank',
+            type: 'billable',
             active: true,
             hourlyRate: 1500,
             totalHoursGoal: 70,

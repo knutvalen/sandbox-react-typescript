@@ -29,8 +29,12 @@ const getHoursForTrackedDays = (trackedDays: Day[]) =>
 const getHoursForProjects = (projects: Project[], currentMonth: number) =>
     sum(
         map(
-            (project: Project) => 
-                pipe(filterTrackedDays, getHoursForTrackedDays)(project.trackedDays, currentMonth), 
+            (project: Project) => {
+                if (project.type !== 'off') {
+                    return pipe(filterTrackedDays, getHoursForTrackedDays)(project.trackedDays, currentMonth);
+                }
+                return 0;
+            }, 
             projects));
 
 const OverviewSummaryRow: React.SFC<OverviewSummaryRowProps> = ({ projects, currentMonth }) => {
