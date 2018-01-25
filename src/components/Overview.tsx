@@ -7,6 +7,7 @@ import * as moment from 'moment';
 import OverviewList from './OverviewList';
 import OverviewSummaryRow from './OverviewSummaryRow';
 import './Overview.css';
+import { map, filter } from 'ramda';
 
 interface OverviewProps {
     readonly projects: Project[];
@@ -19,11 +20,32 @@ const getMonthNumber = (weekNumber: number) =>
 const getMonthName = (weekNumber: number) =>
     moment().month(getMonthNumber(weekNumber)).format('MMMM');
 
+const generateMonthNameArray = (monthName: string, monthNumberArray: number[]) =>
+    map((numDays: number) => moment().month(monthName).startOf('month').add(numDays, 'days').format('dddd'), monthNumberArray);
+
+const generateMonthNumberArray = (numDays: number) => {
+    let array: number[] = [];
+    for (let i: number = 0; i < numDays; i++) {
+        array.push(i);
+    }
+    return array;
+};
+
+const getWorkDays = (monthName: string) => {
+    const days = moment(monthName, 'MMMM').daysInMonth();
+    const monthArray = generateMonthNameArray(monthName, generateMonthNumberArray(days));
+    const mappedMonthWithNoWeekends = filter((dayName: string) => (dayName !== 'Saturday' && dayName !== 'Sunday'), monthArray);
+    return mappedMonthWithNoWeekends.length;
+};
+
 const Overview: React.SFC<OverviewProps> = ({ projects, weekNumber }) => {
-    const currentMonth = getMonthNumber(weekNumber);
+    const monthNumber = getMonthNumber(weekNumber);
+    const monthName = getMonthName(weekNumber);
+    const workDays = getWorkDays(monthName);
+    const hoursGoal = workDays * 7.5;
     return (
         <div>
-            <span>Overview: {getMonthName(weekNumber)}</span>
+            <span>Overview: {monthName}</span>
             <table>
                 <tbody>
                     <tr>
@@ -31,8 +53,8 @@ const Overview: React.SFC<OverviewProps> = ({ projects, weekNumber }) => {
                         <th>Hours</th>
                         <th>Earnings</th>
                     </tr>
-                    <OverviewList projects={projects} currentMonth={currentMonth} />
-                    <OverviewSummaryRow projects={projects} currentMonth={currentMonth} />
+                    <OverviewList projects={projects} currentMonth={monthNumber} />
+                    <OverviewSummaryRow projects={projects} currentMonth={monthNumber} hoursGoal={hoursGoal}/>
                 </tbody>
             </table>
         </div>

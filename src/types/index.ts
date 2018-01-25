@@ -6,10 +6,8 @@ export interface Day {
 export interface Project {
     readonly id: number;
     readonly name: string;
-    readonly type: string;
     readonly active: boolean;
     readonly hourlyRate: number;
-    readonly totalHoursGoal: number;
     readonly trackedDays: Day[];
 }
 

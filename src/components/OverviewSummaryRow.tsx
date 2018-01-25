@@ -6,6 +6,7 @@ import * as moment from 'moment';
 interface OverviewSummaryRowProps {
     readonly projects: Project[];
     readonly currentMonth: number;
+    readonly hoursGoal: number;
 }
 
 const filterTrackedDays = (trackedDays: Day[], currentMonth: number) =>
@@ -30,20 +31,17 @@ const getHoursForProjects = (projects: Project[], currentMonth: number) =>
     sum(
         map(
             (project: Project) => {
-                if (project.type !== 'off') {
-                    return pipe(filterTrackedDays, getHoursForTrackedDays)(project.trackedDays, currentMonth);
-                }
-                return 0;
+                return pipe(filterTrackedDays, getHoursForTrackedDays)(project.trackedDays, currentMonth);
             }, 
             projects));
 
-const OverviewSummaryRow: React.SFC<OverviewSummaryRowProps> = ({ projects, currentMonth }) => {
+const OverviewSummaryRow: React.SFC<OverviewSummaryRowProps> = ({ projects, currentMonth, hoursGoal }) => {
     const hours = getHoursForProjects(projects, currentMonth);
     const earnings = getEarningsForProjects(projects, currentMonth);
     return (
         <tr key={currentMonth} className="Overview-summary">
             <td className="Overview-blank" />
-            <td>{hours}</td>
+            <td>{hours}/{hoursGoal}</td>
             <td>{earnings}</td>
         </tr>
     );
