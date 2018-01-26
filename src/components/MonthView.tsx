@@ -8,6 +8,7 @@ import MonthViewList from './MonthViewList';
 import MonthViewSummaryRow from './MonthViewSummaryRow';
 import './MonthView.css';
 import { map, filter } from 'ramda';
+// import { } from 'bulma';
 
 interface MonthViewProps {
     readonly projects: Project[];
