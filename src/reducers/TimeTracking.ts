@@ -3,6 +3,7 @@ import { TimeTrackingAction } from '../actions/TimeTracking';
 import { find, map } from 'ramda';
 import Constants from '../constants';
 import * as moment from 'moment';
+import { maybeFind } from '../lib';
 
 const defaultState = {
     managingProjects: false,
@@ -39,17 +40,35 @@ const defaultState = {
     ]
 };
 
-const updateProjectActive = (projects: Project[], payload: ActivateProjectPayload) => {
-    const project = find((existingProject: Project) => existingProject.name === payload.project.name, projects);
+// interface MaybeProps {
+//     readonly type: Maybe<any>;
+//     readonly nothing: () => React.ReactElement;
+//     readonly just: Func<any, React.ReactElement>;
+// }
 
-    if (project) {
-        const updatedProject: Project = { ...project, active: !payload.project.active };
-        return map((existingProject: Project) => existingProject.name === payload.project.name ? updatedProject : existingProject, projects);
-    }
+// const Maybe: React.SFC<MaybeProps> = ({ type, nothing, just}) =>
+//     type.caseOf({
+//         nothing,
+//         just
+//     });
 
-    return projects;
-};
+// const ourMaybeType = Maybe.just(10);
+//     <Maybe 
+//     type={ourMaybeType}
+//     nothing={() => <span> Her var det ingenting</span>}
+//     just={(tallet: number) => <span>Tallet er {tallet}</span>}
+//    />
 
+const updateProjectActive = (projects: Project[], payload: ActivateProjectPayload): Project[] =>
+    maybeFind((existingProject: Project) => existingProject.name === payload.project.name, projects)
+        .caseOf({
+            nothing: () => projects,
+            just: (project: Project) => {
+                const updatedProject: Project = { ...project, active: !payload.project.active };
+                return map((existingProject: Project) => existingProject.name === payload.project.name ? updatedProject : existingProject, projects);
+            }
+    });
+    
 const updateProjectHours = (projects: Project[], weekNumber: number, payload: WeekViewChangedPayload) => {
     const project = find((existingProject: Project) => existingProject.name === payload.projectName, projects);
 
@@ -109,7 +128,7 @@ export function timeTracking(state: StoreState = defaultState, action: TimeTrack
             updatedProjects = updateProjectHours(state.projects, state.weekNumber, action.payload);
             return { ...state, projects: updatedProjects };
         case Constants.ManageProjects:
-            return { ...state, managingProjects: !action.payload.managingProjects };
+            return { ...state, managingProjects: !state.managingProjects };
         case Constants.ActiveProjects:
             updatedProjects = updateProjectActive(state.projects, action.payload);
             return { ...state, projects: updatedProjects };

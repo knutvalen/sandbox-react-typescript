@@ -16,6 +16,7 @@
     "react-scripts-ts": "^2.13.0",
     "redux": "^3.7.2",
     "redux-logger": "^3.0.6",
+    "tsmonad": "^0.8.0",
     "typescript": "^2.6.2"
   },
   "scripts": {

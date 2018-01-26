@@ -2,22 +2,29 @@ import * as React from 'react';
 import { Project, BinaryFunc, WeekViewChangedPayload, Day } from '../types/TimeTracking';
 import { curry, map, reduce, find, filter } from 'ramda';
 import ProjectRowCell from './ProjectRowCell';
+import { maybeFind } from '../lib';
 
 const onProjectChange = curry(
     (name: string, onChangeHandler: BinaryFunc<string, WeekViewChangedPayload, void>, weekViewChangedPayload: WeekViewChangedPayload) => 
         onChangeHandler(name, weekViewChangedPayload)
 );
 
+// let day = toMaybe(find((existingDay: Day) => existingDay.date === date, project.trackedDays));
+// if (day == null) {
+//     day = {date: date, hours: 0};
+// }
+// return day;
+
 const mapWeek = (project: Project, currentWeek: string[], weekViewChanged: WeekViewChanged) => {
     const week = map(
-        (date: string) => {
-        let day = find((existingDay: Day) => existingDay.date === date, project.trackedDays);
-        if (day == null) {
-            day = {date: date, hours: 0};
-        }
-        return day;
-        }, 
-        currentWeek);
+        (date: string) => 
+            maybeFind((existingDay: Day) => existingDay.date === date, project.trackedDays)
+                .caseOf({
+                    nothing: () => ({date: date, hours: 0}),
+                    just: (day: Day) => day
+            })
+        , 
+        currentWeek);        
 
     return map(
         (day: Day) =>

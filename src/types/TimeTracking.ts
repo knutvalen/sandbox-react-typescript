@@ -28,14 +28,11 @@ export interface WeekViewChangedPayload {
     readonly hours: number;
 }
 
-export interface ManageProjectsPayload {
-    readonly managingProjects: boolean;
-}
-
 export interface ActivateProjectPayload {
     readonly project: Project;
 }
 
+export type EmptyFunc<ReturnType> = () => ReturnType;
 export type Func<ParamType, ReturnType> = (p: ParamType) => ReturnType;
 export type BinaryFunc<PT1, PT2, ReturnType> = (p: PT1, p2: PT2) => ReturnType;
 export type CurriedBinary<PT1, PT2, ReturnType> = (p: PT1) => (pt2: PT2) => ReturnType;

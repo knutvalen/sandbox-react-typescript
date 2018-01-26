@@ -10,7 +10,6 @@ export interface WeekViewChanged {
 
 export interface ManageProjects {
     readonly type: Constants.ManageProjects;
-    readonly payload: T.ManageProjectsPayload;
 }
 
 export interface ActivateProject {
@@ -39,10 +38,8 @@ export const WeekViewChangedAction = curry(
         dispatch({ type: Constants.WeekViewChanged, payload: WeekViewChangedPayload })
 );
 
-export const manageProjectsAction = curry(
-    (dispatch: Func<ManageProjects, void>, manageProjectsPayload: T.ManageProjectsPayload) =>
-        dispatch({ type: Constants.ManageProjects, payload: manageProjectsPayload })
-);
+export const manageProjectsAction = (dispatch: Func<ManageProjects, void>) => () =>
+        dispatch({ type: Constants.ManageProjects});
 
 export const updateCurrentWeekAction = curry(
     (dispatch: Func<UpdateCurrentWeek, void>, updateCurrentWeekPayload: T.UpdateCurrentWeekPayload) =>
