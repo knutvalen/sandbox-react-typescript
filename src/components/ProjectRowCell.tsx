@@ -14,7 +14,7 @@ const ProjectRowCell: React.SFC<ProjectRowCellProps> = ({ projectName, day, onCh
             type="number" 
             value={day.hours} 
             onChange={((event: React.ChangeEvent<HTMLInputElement>) => 
-                onChangeAction({ projectName: projectName, day: day, hours: parseInt(event.target.value, 10) }))} 
+                onChangeAction({ projectName: projectName, day: day, hours: Number(event.target.value) }))} 
         />
     </td>
 );
